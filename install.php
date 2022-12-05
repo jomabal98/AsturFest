@@ -20,6 +20,12 @@ if (!$query) {
 }
 
 //insert admin
+$resultado = $db->executeS($query);
+if ($resultado) {
+    echo "Consulta correctamente en " . $db->getTable() . "<hr>";
+} else {
+    echo $db->getLastError();
+}
 if (!$db->checkTable($atr)) {
     echo $db->getLastError();
 }
