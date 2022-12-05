@@ -1,0 +1,58 @@
+[
+    {
+        "name": "San Timoteo",
+        "date_init": "20230824",
+        "date_end": "20230827",
+        "place": "Luarca",
+        "type": "fiesta local",
+        "photo": "uwu"
+    },
+    {
+        "name": "Concierto Andy & Lucas",
+        "date_init": "20230228",
+        "date_end": "20230228",
+        "place": "Oviedo",
+        "type": "concierto",
+        "photo": "uwu"
+    },
+    {
+        "name": "Xiringüelu",
+        "date_init": "20230802",
+        "date_end": "20230802",
+        "place": "Pravia",
+        "type": "fiesta local",
+        "photo": "uwu"
+    },
+    {
+        "name": "Concierto Alejandro Sanz",
+        "date_init": "20230724",
+        "date_end": "20230724",
+        "place": "Áviles",
+        "type": "concierto",
+        "photo": "uwu"
+    },
+    {
+        "name": "Riverland",
+        "date_init": "20230721",
+        "date_end": "20230726",
+        "place": "Arriondas",
+        "type": "festival",
+        "photo": "uwu"
+    },
+    {
+        "name": "AquaSella",
+        "date_init": "20230823",
+        "date_end": "20230827",
+        "place": "Cangas de Onís",
+        "type": "festival",
+        "photo": "uwu"
+    },
+    {
+        "name": "Concierto Duki",
+        "date_init": "20230921",
+        "date_end": "20230921",
+        "place": "Oviedo",
+        "type": "concierto",
+        "photo": "uwu"
+    }
+]
