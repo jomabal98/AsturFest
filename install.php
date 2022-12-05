@@ -14,6 +14,12 @@ if (!$db->checkTable($atr)) {
     echo $db->getLastError();
 }
 
+$query = $db->getQuery('INSERT', ["rol" => 1, "name" => "Admin", "mail" => "admin", "age" => "24", "favs" => "admin"]);
+if (!$query) {
+    die($db->getLastError());
+}
+
+//insert admin
 if (!$db->checkTable($atr)) {
     echo $db->getLastError();
 }
