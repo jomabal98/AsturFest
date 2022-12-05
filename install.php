@@ -7,6 +7,13 @@ if (!$db->checkDataBase()) {
     echo $db->getLastError();
 }
 
+//create table user
+$db->setTable('user');
+$atr = ["id" => "smallint auto_increment PRIMARY KEY", "rol" => "smallint", "name" => "varchar(30)", "mail" => "varchar(30)", "age" => "smallint", "favs" => "varchar(255)"];
+if (!$db->checkTable($atr)) {
+    echo $db->getLastError();
+}
+
 if (!$db->checkTable($atr)) {
     echo $db->getLastError();
 }
