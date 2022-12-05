@@ -1,6 +1,12 @@
 <?php
 
 require_once __DIR__ . '/src/Db.php';
+
+$db = new Db();
+if (!$db->checkDataBase()) {
+    echo $db->getLastError();
+}
+
 if (!$db->checkTable($atr)) {
     echo $db->getLastError();
 }
