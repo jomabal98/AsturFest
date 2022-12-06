@@ -1,0 +1,28 @@
+.pagination {
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+th:has(div) {
+    display: flex;
+}
+
+td {
+    width: 15%;
+}
+
+/* body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+} */
+
+.container {
+    margin: auto;
+    margin-top: 10px;
+}
+
+nav{
+    width: 100%;
+}
