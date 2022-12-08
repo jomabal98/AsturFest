@@ -15,8 +15,9 @@ class PaginationTable
     private $orderWay = "";
     private $where = "";
     private $new_columns = [];
+    private $fieldsTranslated = [];
 
-    public function __construct(Db $db, string $table,int $page, int $limit, array $new_columns,string $orderBy = "id", string $orderWay = "ASC",string $where="", string $select = '*', array $selectors = [5, 10, 20, 30])
+    public function __construct(Db $db, string $table, int $page, int $limit, array $new_columns, array $fieldsTranslated, string $orderBy = "id", string $orderWay = "ASC", string $where = "", string $select = '*', array $selectors = [5, 10, 20, 30])
     {
         $this->db = $db;
         $this->page = $page;
@@ -27,6 +28,7 @@ class PaginationTable
         $this->selectors = $selectors;
         $this->where = $where;
         $this->new_columns = $new_columns;
+        $this->fieldsTranslated = $fieldsTranslated;
         $this->db->setTable($table);
     }
 
@@ -41,13 +43,13 @@ class PaginationTable
 
     public function get($ajax = false)
     {
-        $this->paramsQuery = ["col" => $this->select, "page" => $this->page, "limit" => $this->limit, "orderBy" => $this->orderBy, "orderWay" => $this->orderWay, "where"=>$this->where];
+        $this->paramsQuery = ["col" => $this->select, "page" => $this->page, "limit" => $this->limit, "orderBy" => $this->orderBy, "orderWay" => $this->orderWay, "where" => $this->where];
         $query = $this->db->getQuery('SELECT', $this->paramsQuery);
         if (!$query) {
             $this->lastError = $this->db->getLastError();
             return false;
         }
-        
+
         // Get data 
         $data = $this->db->executeS($query);
         if (!$data) {
@@ -73,8 +75,10 @@ class PaginationTable
         }
 
         // Get table
-        $table = new Table($dataTable, $this->selectors, $pages, $this->new_columns);
-        return $table->getTable();
+        $table = new Table($dataTable, $this->selectors, $pages, $this->new_columns, $this->fieldsTranslated);
+        $resul = $this->getModal();
+        $resul .= $table->getTable();
+        return $resul;
     }
 
     /**
@@ -124,5 +128,31 @@ class PaginationTable
     {
         return $this->lastError;
     }
-}
 
+    public function getModal()
+    {
+        $insert = '<div class="container"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">INSERT</button></div>';
+        $insert .= '<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Nuevo registro</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form>';
+        foreach ($this->fieldsTranslated as $field) {
+            if (!isset($field['type'])) {
+                continue;
+            }
+            $insert .= "<div class='mb-3'><label for='{$field['translator']}' class='col-form-label'>{$field['translator']}:</label>";
+            $insert .= "<input type='{$field['type']}' class='form-control {$field['translator']}'></div>";
+        }
+        $insert .= '</form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary send">Insertar</button></div></div></div></div></div>';
+        return $insert;
+    }
+}

@@ -143,12 +143,16 @@ class Db
                     $query.=$key.",";
                 }
 
-                $query=substr($query,0,-1).') values("';
+                $query=substr($query,0,-1).') values(';
                 foreach ($params as $value) {
-                    $query.=$value.'", "';
+                    if(intval($value)){
+                        $query.=$value.",";
+                    }else{
+                        $query.="'".$value."',";
+                    }
                 }
 
-                $query=substr($query,0,-3).');';
+                $query=substr($query,0,-1).');';
                 break;
 
             case 'SELECT':
@@ -306,5 +310,3 @@ class Db
     }
 
 }
-
-?>

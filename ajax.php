@@ -56,7 +56,11 @@ switch ($action) {
             echo json_encode(['error' => "nameTable incorrect"]);
         }
 
-        $paginationTable = new PaginationTable(new Db(), (string) $_POST['nameTable'], (int) $_POST['page'], (int) $_POST['numSelector'], (array) $_POST['new_columns'], (string) $_POST['orderBy'], (string) $_POST['orderWay'], (string)$where);
+        if (!isset($_POST['fieldsTranslated']) || !is_array($_POST['fieldsTranslated'])) {
+            echo json_encode(['error' => "fieldsTranslated incorrect"]);
+        }
+
+        $paginationTable = new PaginationTable(new Db(), (string) $_POST['nameTable'], (int) $_POST['page'], (int) $_POST['numSelector'], (array) $_POST['new_columns'], (array)$_POST['fieldsTranslated'], (string) $_POST['orderBy'], (string) $_POST['orderWay'], (string)$where);
         $table = $paginationTable->get(true);
         if (!$table) {
             echo json_encode(['error' => $paginationTable->getLastError()]);
@@ -65,7 +69,7 @@ switch ($action) {
 
         echo json_encode(['tbody' => $table['tbody'], 'pages' => $table['paginator']]);
         break;
-    
+
     case 'changeTable':
         if (!isset($_POST['page']) || $_POST['page'] < 1) {
             echo json_encode(['error' => "page incorrect"]);
@@ -83,7 +87,11 @@ switch ($action) {
             echo json_encode(['error' => "limit incorrect"]);
         }
 
-        $paginationTable = new PaginationTable(new Db(), (string) $_POST['nameTable'], (int) $_POST['page'], (int) $_POST['limit'], (array) $_POST['new_columns']);
+        if (!isset($_POST['fieldsTranslated']) || !is_array($_POST['fieldsTranslated'])) {
+            echo json_encode(['error' => "fieldsTranslated incorrect"]);
+        }
+
+        $paginationTable = new PaginationTable(new Db(), (string) $_POST['nameTable'], (int) $_POST['page'], (int) $_POST['limit'], (array) $_POST['new_columns'], (array)$_POST['fieldsTranslated']);
         $table = $paginationTable->get();
         if (!$table) {
             echo json_encode(['error' => $paginationTable->getLastError()]);
@@ -91,6 +99,7 @@ switch ($action) {
         }
 
         echo json_encode(['table' => $table]);
+        break;
     default:
         die(header("Refresh:5; url=indexAdmin.php"));
         break;

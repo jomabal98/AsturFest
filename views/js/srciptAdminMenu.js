@@ -3,15 +3,65 @@ let orderWay;
 let id;
 let date1 = "";
 let date2 = "";
+user = {
+    'id': {
+        'translator': 'Identificador'
+    },
+    'rol': {
+        'translator': 'Rol'
+    },
+    'name': {
+        'translator': 'Nombre',
+        'type': 'text'
+    },
+    'mail': {
+        'translator': 'Mail',
+        'type': 'text'
+    },
+    'age': {
+        'translator': 'Edad',
+        'type': 'number'
+    },
+    'favs': {
+        'translator': 'Favoritos',
+    }
+};
+evento = {
+    'id': {
+        'translator': 'Identificador'
+    },
+    'name': {
+        'translator': 'Nombre',
+        'type': 'text'
+    },
+    'date_init': {
+        'translator': 'Fecha de inicio',
+        'type': 'date'
+    },
+    'date_end': {
+        'translator': 'Fecha de finalizacion',
+        'type': 'number'
+    },
+    'place': {
+        'translator': 'Lugar',
+        'type': 'text'
+    },
+    'type': {
+        'translator': 'Tipo',
+        'type': 'text'
+    },
+    'photo': {
+        'translator': 'Imagen',
+        'type': 'text'
+    }
+};
 
 /**
  * funciton onclick used when u change the select´s value
  */
 
-$('.form-select').change(function (e) {
-    e.preventDefault();
-    console.log("gola");
-    // updateTable(orderBy, orderWay);
+$(document).on('change', '.form-select', function () {
+    updateTable(orderBy, orderWay);
 });
 
 /**
@@ -21,10 +71,24 @@ $('.form-select').change(function (e) {
 function updateTable(orderBy = 'id', orderWay = 'ASC') {
     let selected = $('.form-select').val();
     let page = $('.active').text();
-    let params = { 'numSelector': selected, 'page': page, 'orderBy': orderBy, 'orderWay': orderWay, 'new_columns': new_col, 'date1': date1, 'date2': date2, 'nameTable': nameTable };
+    if (nameTable == "event") {
+        fieldsTranslated = evento;
+    } else {
+        fieldsTranslated = user;
+    }
+    let params = { 'numSelector': selected, 'page': page, 'orderBy': orderBy, 'orderWay': orderWay, 'new_columns': new_col, 'date1': date1, 'date2': date2, 'nameTable': nameTable, 'fieldsTranslated': fieldsTranslated };
     callAjax('POST', 'updateTable', params, function (data) {
         if (data['error']) {
             return alert(data['error']);
+        }
+
+        if (data['tbody'] == "") {
+            $('table').hide();
+            let button = "<br><button class='hide btn btn-outline-primary'>Reset busqueda</button>";
+            let p = "<p class='hide'>Datos no encontrados</p>";
+            $('.search').after(button);
+            $('.search').after(p);
+            return;
         }
 
         $('tbody').remove();
@@ -55,6 +119,14 @@ $(document).on("click", ".page-item", function () {
  */
 
 $(document).on("click", "th", function () {
+    th = $(this).html();
+    var keys = Object.getOwnPropertyNames(fieldsTranslated);
+    for (let i = 0; i < keys.length; i++) {
+        if (fieldsTranslated[keys[i]].translator == th) {
+            th = keys[i];
+        }
+    }
+
     if ($(this).find('.sort').length > 0) {
         let txt = $('.sort').html();
         if (txt.includes("↓")) {
@@ -132,11 +204,11 @@ $(document).on("click", ".search", function () {
 })
 
 $(document).on("change", "#date1", function () {
-    $('#date2').attr('min', $('#date1').val());
+    $('#date2').attr('min', $(this).val());
 })
 
 $(document).on("change", "#date2", function () {
-    $('#date1').attr('max', $('#date2').val());
+    $('#date1').attr('max', $(this).val());
 })
 
 $(document).on("click", ".event", function () {
@@ -148,9 +220,14 @@ $(document).on("click", ".user", function () {
 })
 
 function changeTable(table) {
+    if (table == "event") {
+        fieldsTranslated = evento;
+    } else {
+        fieldsTranslated = user;
+    }
     let page = $('.active').text();
     nameTable = table;
-    let params = { 'page': page, 'new_columns': new_col, 'nameTable': nameTable, 'limit': 5 };
+    let params = { 'page': page, 'new_columns': new_col, 'nameTable': nameTable, 'limit': 5, 'fieldsTranslated': fieldsTranslated };
     callAjax('POST', 'changeTable', params, function (data) {
         if (data['error']) {
             return alert(data['error']);
@@ -161,3 +238,8 @@ function changeTable(table) {
     });
 
 }
+
+$(document).on("click", ".hide", function () {
+    $('.hide').remove();
+    $('table').show();
+})

@@ -3,11 +3,13 @@ class Table
 {
     private $table;
     private static $new_columns;
+    private static $translatorFields;
 
-    public function __construct(array $dataTable, array $selectors, int $pages, array $new_columns)
+    public function __construct(array $dataTable, array $selectors, int $pages, array $new_columns, array $translatorFields)
     {
         self::$new_columns = $new_columns;
-        $this->table = $this->get($dataTable, $selectors, $pages);
+        self::$translatorFields = $translatorFields;
+        $this->table = $this->get($dataTable, $selectors, $pages, $translatorFields);
     }
 
     /**
@@ -31,7 +33,7 @@ class Table
      * @return string
      */
 
-    private function get(array $dataTable, array $selectors, int $pages): string
+    private function get(array $dataTable, array $selectors, int $pages, array $translatorFields): string
     {
         if (empty($dataTable)) {
             return '';
@@ -41,7 +43,7 @@ class Table
         $table .= $this->createSelector($selectors);
         $table .= '<table class="table table-striped">';
         $arrayClaves = array_keys(get_object_vars($dataTable[0]));
-        $table .= $this->createHeader($arrayClaves);
+        $table .= $this->createHeader($arrayClaves, $translatorFields);
         $table .= self::getContent($dataTable, self::$new_columns);
         $table .= '</table>';
         $table .= self::createPagination($pages);
@@ -57,12 +59,17 @@ class Table
      * @return string $header
      */
 
-    public function createHeader(array $array): string
+    public function createHeader(array $array, array $translatorFields): string
     {
+        if (!empty(self::$translatorFields)) {
+            $translatorFields = array_combine(array_keys($translatorFields), array_column($translatorFields, 'translator'));
+            return '<thead>' . self::getRow($translatorFields, 'th') . '</thead>';
+        }
+
         if (!empty(self::$new_columns)) {
             $array = array_merge((array)$array, array_keys(self::$new_columns));
         }
-        return '<thead>' . self::getRow($array,'th') . '</thead>';
+        return '<thead>' . self::getRow($array, 'th') . '</thead>';
     }
 
     /**
@@ -74,10 +81,14 @@ class Table
      * @return string $tr
      */
 
-    static public  function getRow($columns,string $tag = 'td'): string
+    static public  function getRow($columns, string $tag = 'td'): string
     {
         $tr = '<tr>';
-        foreach ($columns as $column) {
+        foreach ($columns as $key => $column) {
+            if ($key == "photo" && $tag == "td" && !empty($column)) {
+                $column = '<img src="' . $column . '" width="50" height="50">';
+            }
+
             $tr .= self::getColumn($column, $tag);
         }
 
@@ -95,7 +106,7 @@ class Table
 
     static public  function getColumn(string $value, string $tag = 'td'): string
     {
-        if ($value==='0') {
+        if ($value === '0') {
             return  "<{$tag} scope='col'></{$tag}>";
         }
         return  "<{$tag} scope='col'>" . $value . "</{$tag}>";
@@ -120,7 +131,7 @@ class Table
             if (!empty($new_columns)) {
                 $value = array_merge((array) $value, $new_columns);
             }
-            
+
             $tbody .= self::getRow($value);
         }
 
@@ -146,8 +157,7 @@ class Table
             $select .= "<option value='{$selector}'>{$selector}</option>";
         }
 
-        $select .= '<select><br>';
-        $select .= '<button class="btn btn-primary insert">INSERT</button><br><br>';
+        $select .= '</select><br>';
         $select .= '<input type="date" id="date1">		';
         $select .= '<input type="date" id="date2">		';
         $select .= '<button class="btn btn-outline-primary search">SEARCH</button><br><br>';
