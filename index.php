@@ -4,29 +4,35 @@ require_once __DIR__ . '/src/Db.php';
 
 $page = 1;
 $limit = 5;
-$new_columns = ['' => "<button class='btn btn-danger delete'>DELETE</button>"];
-$nameTable = "user";
+$new_columns = [];
+$nameTable = "event";
 $fieldsTranslated = [
     'id' => [
         'translator' => 'Identificador'
-    ],
-    'rol' => [
-        'translator' => 'Rol'
     ],
     'name' => [
         'translator' => 'Nombre',
         'type' => 'text'
     ],
-    'mail' => [
-        'translator' => 'Mail',
+    'date_init' => [
+        'translator' => 'Fecha_de_inicio',
+        'type' => 'date'
+    ],
+    'date_end' => [
+        'translator' => 'Fecha_de_finalizacion',
+        'type' => 'date'
+    ],
+    'place' => [
+        'translator' => 'Lugar',
         'type' => 'text'
     ],
-    'age' => [
-        'translator' => 'Edad',
-        'type' => 'number'
+    'type' => [
+        'translator' => 'Tipo',
+        'type' => 'text'
     ],
-    'favs' => [
-        'translator' => 'Favoritos',
+    'photo' => [
+        'translator' => 'Imagen',
+        'type' => 'text'
     ]
 ];
 $paginationTable = new PaginationTable(new Db(), $nameTable, $page, $limit, $new_columns, $fieldsTranslated);
@@ -59,15 +65,9 @@ if (!$table) {
             <div class="collapse navbar-collapse " id="navbarTogglerDemo01">
                 <a class="navbar-brand" href="#"><img src="views/img/favicon.ico" width="20" height="20">AsturEvent</a>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link user" aria-current="page" href="#">Usuarios</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link event" aria-current="page" href="#">Eventos</a>
-                    </li>
                 </ul>
-                <form class="d-flex" action="index.php">
-                    <button class=" btn btn-outline-danger">Cerrar Sesion</button>
+                <form class="d-flex" action="login.php">
+                    <button class=" btn btn-outline-primary">Iniciar Sesion</button>
                 </form>
             </div>
         </div>

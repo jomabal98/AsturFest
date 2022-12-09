@@ -106,9 +106,6 @@ class Table
 
     static public  function getColumn(string $value, string $tag = 'td'): string
     {
-        if ($value === '0') {
-            return  "<{$tag} scope='col'></{$tag}>";
-        }
         return  "<{$tag} scope='col'>" . $value . "</{$tag}>";
     }
 
@@ -158,9 +155,9 @@ class Table
         }
 
         $select .= '</select><br>';
-        $select .= '<input type="date" id="date1">		';
+        $select .= '<div class="input-search"><input type="date" id="date1">		';
         $select .= '<input type="date" id="date2">		';
-        $select .= '<button class="btn btn-outline-primary search">SEARCH</button><br><br>';
+        $select .= '<button class="btn btn-outline-primary search">SEARCH</button></div><br><br>';
         return  $select;
     }
 

@@ -29,7 +29,7 @@ if ($resultado) {
 
 //create table event
 $db->setTable('event');
-$atr = ["id" => "smallint auto_increment PRIMARY KEY", "name" => "varchar(30)", "date_init" => "datetime", "date_end" => "datetime", "place" => "varchar(50)", "type" => "varchar(20)", "photo" => "varchar(50)"];
+$atr = ["id" => "smallint auto_increment PRIMARY KEY", "name" => "varchar(30)", "date_init" => "date", "date_end" => "date", "place" => "varchar(50)", "type" => "varchar(20)", "photo" => "varchar(50)"];
 if (!$db->checkTable($atr)) {
     echo $db->getLastError();
 }

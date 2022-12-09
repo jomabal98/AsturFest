@@ -35,12 +35,12 @@ evento = {
         'type': 'text'
     },
     'date_init': {
-        'translator': 'Fecha de inicio',
+        'translator': 'Fecha_de_inicio',
         'type': 'date'
     },
     'date_end': {
-        'translator': 'Fecha de finalizacion',
-        'type': 'number'
+        'translator': 'Fecha_de_finalizacion',
+        'type': 'date'
     },
     'place': {
         'translator': 'Lugar',
@@ -95,6 +95,9 @@ function updateTable(orderBy = 'id', orderWay = 'ASC') {
         $('thead').after(data['tbody']);
         $('.nav_pagination').remove();
         $('table').after(data['pages']);
+        if(nameTable=="user"){
+            $('.input-search').remove();
+        }
 
     });
 
@@ -143,7 +146,7 @@ $(document).on("click", "th", function () {
     }
 
     $('.sort').remove();
-    orderBy = $(this).html();
+    orderBy = th;
     orderWay = "ASC";
     txt = $(this).html() + "<div class='sort'>↑</div>";
     $(this).html(txt);
@@ -211,6 +214,14 @@ $(document).on("change", "#date2", function () {
     $('#date1').attr('max', $(this).val());
 })
 
+$(document).on("change", ".Fecha_de_inicio", function () {
+    $('.Fecha_de_finalizacion').attr('min', $(this).val());
+})
+
+$(document).on("change", ".Fecha_de_finalizacion", function () {
+    $('.Fecha_de_inicio').attr('max', $(this).val());
+})
+
 $(document).on("click", ".event", function () {
     changeTable("event");
 })
@@ -225,16 +236,20 @@ function changeTable(table) {
     } else {
         fieldsTranslated = user;
     }
-    let page = $('.active').text();
+
     nameTable = table;
-    let params = { 'page': page, 'new_columns': new_col, 'nameTable': nameTable, 'limit': 5, 'fieldsTranslated': fieldsTranslated };
+    let params = { 'page': 1, 'new_columns': new_col, 'nameTable': nameTable, 'limit': 5, 'fieldsTranslated': fieldsTranslated };
     callAjax('POST', 'changeTable', params, function (data) {
         if (data['error']) {
             return alert(data['error']);
         }
 
+        
         $('.container').remove();
         $('nav').after(data['table']);
+        if(nameTable=="user"){
+            $('.input-search').remove();
+        }
     });
 
 }
@@ -243,3 +258,65 @@ $(document).on("click", ".hide", function () {
     $('.hide').remove();
     $('table').show();
 })
+
+let error = false;
+$(document).on("click", ".send", function () {
+    error = false;
+    let params
+    if (nameTable == "user") {
+        validateEmail($('.Mail').val())
+        if ($('.Edad').val() < 1 && $('.Nombre').val().length <= 0) {
+            error = true;
+        }
+
+        if (error) {
+            alert("datos mal introducidos");
+            return;
+        }
+
+        params = { 'name': $('.Nombre').val(), 'age': $('.Edad').val(), 'mail': $('.Mail').val(), 'nameTable': nameTable };
+    } else {
+        let dateinit = $('.Fecha_de_inicio').val().replaceAll("/", "");
+        dateinit = dateinit.replaceAll("/", "");
+        console.log(dateinit);
+        let dateend = $('.Fecha_de_finalizacion').val().replaceAll("/", "");
+        if ($('.Nombre').val().length <= 0 || $('.Lugar').val().length <= 0 || $('.Tipo').val().length <= 0 || $('.Imagen').val().length <= 0) {
+            error = true;
+        }
+        if (error) {
+            alert("datos mal introducidos");
+            return;
+        }
+
+        params = { 'name': $('.Nombre').val(), 'photo': $('.Imagen').val(), 'place': $('.Lugar').val(), 'type': $('.Tipo').val(), 'nameTable': nameTable, 'date_init': dateinit, 'date_end': dateend };
+    }
+
+    let post = "";
+    if (nameTable == "event") {
+        post = "insertEvent";
+    } else {
+        post = "insertUser";
+    }
+
+    callAjax('POST', post, params, function (data) {
+        if (data['error']) {
+            return alert(data['error']);
+        }
+        $('.ins').remove();
+        $('.insert-button').after("<p class='ins'><b>Insertado correctamente</b></p>");
+        $('#exampleModal').modal('hide');
+        updateTable();
+    })
+
+})
+
+function validateEmail(value) {
+    if (!(/^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/.test(value))) {
+        error = true;
+    }
+
+}
+
+if(nameTable=="user"){
+    $('.input-search').remove();
+}

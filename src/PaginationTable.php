@@ -131,7 +131,7 @@ class PaginationTable
 
     public function getModal()
     {
-        $insert = '<div class="container"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">INSERT</button></div>';
+        $insert = '<div class="container "><button type="button" class="insert-button btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">INSERT</button></div>';
         $insert .= '<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">

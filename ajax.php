@@ -100,6 +100,79 @@ switch ($action) {
 
         echo json_encode(['table' => $table]);
         break;
+
+    case 'insertUser':
+        if (!isset($_POST['nameTable']) || empty($_POST['nameTable'])) {
+            echo json_encode(['error' => "nameTable incorrect"]);
+        }
+
+        if (!isset($_POST['mail']) || empty($_POST['mail'])) {
+            echo json_encode(['error' => "mail incorrect"]);
+        }
+
+        if (!isset($_POST['name']) || empty($_POST['name'])) {
+            echo json_encode(['error' => "name incorrect"]);
+        }
+
+        if (!isset($_POST['age']) || $_POST['age'] < 1) {
+            echo json_encode(['error' => "mail incorrect"]);
+        }
+
+        $db = new Db();
+        $db->setTable($_POST['nameTable']);
+        $query = $db->getQuery('INSERT', ["name" => "{$_POST['name']}", "rol" => 0, "mail" => "{$_POST['mail']}", "age" => $_POST['age'], "favs" => ""]);
+        $result = $db->executeS($query);
+        if (!$result) {
+            $result = $db->getLastError();
+        } else {
+            $result = true;
+        }
+
+        echo json_encode(['result' => $result]);
+        break;
+
+    case 'insertEvent':
+        if (!isset($_POST['nameTable']) || empty($_POST['nameTable'])) {
+            echo json_encode(['error' => "nameTable incorrect"]);
+        }
+
+        if (!isset($_POST['place']) || empty($_POST['place'])) {
+            echo json_encode(['error' => "place incorrect"]);
+        }
+
+        if (!isset($_POST['name']) || empty($_POST['name'])) {
+            echo json_encode(['error' => "name incorrect"]);
+        }
+
+        if (!isset($_POST['photo']) || empty($_POST['photo'])) {
+            echo json_encode(['error' => "photo incorrect"]);
+        }
+
+        if (!isset($_POST['type']) || empty($_POST['type'])) {
+            echo json_encode(['error' => "type incorrect"]);
+        }
+
+        if (!isset($_POST['date_init']) || empty($_POST['date_init'])) {
+            var_dump("hola");
+            echo json_encode(['error' => "date_init incorrect"]);
+        }
+
+        if (!isset($_POST['date_end']) || empty($_POST['date_end'])) {
+            echo json_encode(['error' => "date_end incorrect"]);
+        }
+
+        $db = new Db();
+        $db->setTable($_POST['nameTable']);
+        $query = $db->getQuery('INSERT', ["name" => "{$_POST['name']}", "date_init" => "{$_POST['date_init']}", "date_end" => "{$_POST['date_end']}", "photo" => "{$_POST['photo']}","type" => "{$_POST['type']}","place" => "{$_POST['place']}",]);
+        $result = $db->executeS($query);
+        if (!$result) {
+            $result = $db->getLastError();
+        } else {
+            $result = true;
+        }
+
+        echo json_encode(['result' => $result]);
+        break;
     default:
         die(header("Refresh:5; url=indexAdmin.php"));
         break;
