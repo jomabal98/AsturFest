@@ -134,25 +134,23 @@ class Db
                 break;
 
             case 'INSERT':
-                // if (!isset($params['name']) || empty(trim($params['name'])) || !isset($params['age']) || ($params['age'] <= 0)) {
-                //     return false;
-                // }
-                
+                $paramsKey = array_keys($params);
+                $query = '';
                 $query = "INSERT into " . $this->table . "(";
-                foreach ($params as $key=>$value) {
-                    $query.=$key.",";
+                foreach ($paramsKey as $field) {
+                    $query .= $field . ",";
                 }
+                $query = substr($query, 0, -1) . ") VALUES (";
 
-                $query=substr($query,0,-1).') values(';
                 foreach ($params as $value) {
-                    if(intval($value)){
-                        $query.=$value.",";
-                    }else{
-                        $query.="'".$value."',";
+                    if (intval($value)) {
+                        $query .= $value . ",";
+                    } else {
+                        $query .= "'" . $value . "',";
                     }
                 }
 
-                $query=substr($query,0,-1).');';
+                $query = substr($query, 0, -1) . ');';
                 break;
 
             case 'SELECT':

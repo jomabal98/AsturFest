@@ -29,7 +29,7 @@ switch ($action) {
     case 'updateTable':
         $where = "";
         if (isset($_POST['date1']) && !empty($_POST['date1']) && isset($_POST['date2']) && !empty($_POST['date2'])) {
-            $where = " date_init between {$_POST['date1']} and {$_POST['date2']}";
+            $where = " date_init BETWEEN {$_POST['date1']} AND {$_POST['date2']} OR date_end BETWEEN {$_POST['date1']} AND {$_POST['date2']} OR {$_POST['date1']} BETWEEN date_init AND date_end";
         }
 
         if (!isset($_POST['page']) || $_POST['page'] < 1) {

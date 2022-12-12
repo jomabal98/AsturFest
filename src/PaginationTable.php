@@ -64,11 +64,11 @@ class PaginationTable
         $dataTable = $data->fetchAll(PDO::FETCH_CLASS, "User");
 
         if ($ajax) {
-            // var_dump($query);
             if ($this->page > $pages) {
                 $this->page = $pages;
                 return $this->get($ajax);
             }
+
             $tbody = Table::getContent($dataTable, $this->new_columns);
             $paginator = Table::createPagination($pages, $this->page);
             return ['tbody' => $tbody, 'paginator' => $paginator];
@@ -93,7 +93,20 @@ class PaginationTable
             return 0;
         }
 
-        $params = ['col' => isset($this->paramsQuery['col']) ? $this->paramsQuery['col'] : '*'];
+        $col = ['col' => isset($this->paramsQuery['col']) ? $this->paramsQuery['col'] : '*'];
+        if (isset($this->paramsQuery['col'])) {
+            $col = $this->paramsQuery['col'];
+        } else {
+            $col = '*';
+        }
+
+        if (isset($this->paramsQuery['where'])) {
+            $where = $this->paramsQuery['where'];
+            $params = ["col" => $col, "where" => $where];
+        } else {
+            $params = ["col" => $col];
+        }
+
         $query = $this->db->getQuery('SELECT', $params);
         if (!$query) {
             $this->lastError = $this->db->getLastError();
@@ -113,7 +126,6 @@ class PaginationTable
             $countTotal++;
             $countTotal = intval($countTotal);
         }
-        // echo $countTotal;
 
         return $countTotal;
     }

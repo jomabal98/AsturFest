@@ -84,6 +84,7 @@ function updateTable(orderBy = 'id', orderWay = 'ASC') {
 
         if (data['tbody'] == "") {
             $('table').hide();
+            $('.nav_pagination').hide();
             let button = "<br><button class='hide btn btn-outline-primary'>Reset busqueda</button>";
             let p = "<p class='hide'>Datos no encontrados</p>";
             $('.search').after(button);
@@ -95,7 +96,7 @@ function updateTable(orderBy = 'id', orderWay = 'ASC') {
         $('thead').after(data['tbody']);
         $('.nav_pagination').remove();
         $('table').after(data['pages']);
-        if(nameTable=="user"){
+        if (nameTable == "user") {
             $('.input-search').remove();
         }
 
@@ -196,8 +197,9 @@ function callAjax(type = 'POST', action = 'updateTable', params, success, dataTy
 }
 
 $(document).on("click", ".search", function () {
+    $('.hide').remove();
     if ($('#date1').val() == null || $('#date1').val() == "" || $('#date2').val() == null || $('#date2').val() == "" || $('#date2').val() < $('#date1').val()) {
-        $('.search').after('<p style="color:red">Incorrect dates</p>');
+        $('.search').after('<div class="hide"><p style="color:red">Incorrect dates</p></div>');
         return;
     }
     date1 = $('#date1').val().replaceAll("-", "");
@@ -244,10 +246,10 @@ function changeTable(table) {
             return alert(data['error']);
         }
 
-        
+
         $('.container').remove();
         $('nav').after(data['table']);
-        if(nameTable=="user"){
+        if (nameTable == "user") {
             $('.input-search').remove();
         }
     });
@@ -255,8 +257,11 @@ function changeTable(table) {
 }
 
 $(document).on("click", ".hide", function () {
+    $('#date1').val("");
+    $('#date2').val("");
     $('.hide').remove();
     $('table').show();
+    $('.nav_pagination').show();
 })
 
 let error = false;
@@ -276,19 +281,19 @@ $(document).on("click", ".send", function () {
 
         params = { 'name': $('.Nombre').val(), 'age': $('.Edad').val(), 'mail': $('.Mail').val(), 'nameTable': nameTable };
     } else {
-        let dateinit = $('.Fecha_de_inicio').val().replaceAll("/", "");
-        dateinit = dateinit.replaceAll("/", "");
-        console.log(dateinit);
-        let dateend = $('.Fecha_de_finalizacion').val().replaceAll("/", "");
+        let dateInit = $('.Fecha_de_inicio').val().replaceAll("-", "");
+        let dateEnd = $('.Fecha_de_finalizacion').val().replaceAll("-", "");
         if ($('.Nombre').val().length <= 0 || $('.Lugar').val().length <= 0 || $('.Tipo').val().length <= 0 || $('.Imagen').val().length <= 0) {
             error = true;
         }
+
+        validateFileType();
         if (error) {
             alert("datos mal introducidos");
             return;
         }
 
-        params = { 'name': $('.Nombre').val(), 'photo': $('.Imagen').val(), 'place': $('.Lugar').val(), 'type': $('.Tipo').val(), 'nameTable': nameTable, 'date_init': dateinit, 'date_end': dateend };
+        params = { 'name': $('.Nombre').val(), 'photo': $('.Imagen').val(), 'place': $('.Lugar').val(), 'type': $('.Tipo').val(), 'nameTable': nameTable, 'date_init': dateInit, 'date_end': dateEnd };
     }
 
     let post = "";
@@ -317,6 +322,16 @@ function validateEmail(value) {
 
 }
 
-if(nameTable=="user"){
+if (nameTable == "user") {
     $('.input-search').remove();
+}
+
+function validateFileType() {
+    var fileName = $(".Imagen").val();
+    var idxDot = fileName.lastIndexOf(".") + 1;
+    var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+    if (extFile != "jpg" && extFile != "jpeg" && extFile != "png") {
+        error = true;
+    }
+
 }

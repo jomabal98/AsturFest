@@ -180,7 +180,7 @@ class Table
             $active = $pages;
         }
 
-        $pagination = '<nav class="nav_pagination"><ul class="pagination">';
+        $pagination = '<nav class=nav_pagination><ul class="pagination">';
         for ($page = 1; $page <= $pages; $page++) {
             $pagination .= "<li class='page-item ";
             if ($active == $page) {
