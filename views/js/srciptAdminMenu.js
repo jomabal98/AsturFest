@@ -276,10 +276,7 @@ $(document).on("click", ".send", function () {
     let params;
     if (nameTable == "user") {
         validateEmail($('.Mail').val())
-        if ($('.Contraseña').val().length < 4 || $('.Contraseña').val().length > 16) {
-            error = true;
-        }
-
+        validatePass($('.Contraseña').val());
         if ($('.Edad').val() < 1 && $('.Nombre').val().length <= 0) {
             error = true;
         }
@@ -328,6 +325,13 @@ $(document).on("click", ".send", function () {
 
 function validateEmail(value) {
     if (!(/^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/.test(value))) {
+        error = true;
+    }
+
+}
+
+function validatePass(value) {
+    if (!(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{4,15}$/.test(value))) {
         error = true;
     }
 
