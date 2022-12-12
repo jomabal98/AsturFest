@@ -17,6 +17,10 @@ $fieldsTranslated = [
         'translator' => 'Nombre',
         'type' => 'text'
     ],
+    'password' => [
+        'translator' => 'Contraseña',
+        'type' => 'password'
+    ],
     'mail' => [
         'translator' => 'Mail',
         'type' => 'text'
@@ -29,7 +33,8 @@ $fieldsTranslated = [
         'translator' => 'Favoritos',
     ]
 ];
-$paginationTable = new PaginationTable(new Db(), $nameTable, $page, $limit, $new_columns, $fieldsTranslated);
+$rol="admin";
+$paginationTable = new PaginationTable(new Db(), $rol, $nameTable, $page, $limit, $new_columns, $fieldsTranslated);
 $table = $paginationTable->get();
 if (!$table) {
     die($paginationTable->getLastError());
@@ -57,7 +62,7 @@ if (!$table) {
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse " id="navbarTogglerDemo01">
-                <a class="navbar-brand" href="#"><img src="views/img/favicon.ico" width="20" height="20">AsturEvent</a>
+                <a class="navbar-brand" href="index.php"><img src="views/img/favicon.ico" width="20" height="20">AsturEvent</a>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link user" aria-current="page" href="#">Usuarios</a>

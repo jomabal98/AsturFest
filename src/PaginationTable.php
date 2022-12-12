@@ -16,8 +16,9 @@ class PaginationTable
     private $where = "";
     private $new_columns = [];
     private $fieldsTranslated = [];
+    private $rol="";
 
-    public function __construct(Db $db, string $table, int $page, int $limit, array $new_columns, array $fieldsTranslated, string $orderBy = "id", string $orderWay = "ASC", string $where = "", string $select = '*', array $selectors = [5, 10, 20, 30])
+    public function __construct(Db $db, string $rol, string $table, int $page, int $limit, array $new_columns, array $fieldsTranslated, string $orderBy = "id", string $orderWay = "ASC", string $where = "", string $select = '*', array $selectors = [5, 10, 20, 30])
     {
         $this->db = $db;
         $this->page = $page;
@@ -30,6 +31,7 @@ class PaginationTable
         $this->new_columns = $new_columns;
         $this->fieldsTranslated = $fieldsTranslated;
         $this->db->setTable($table);
+        $this->rol=$rol;
     }
 
     /**
@@ -69,14 +71,14 @@ class PaginationTable
                 return $this->get($ajax);
             }
 
-            $tbody = Table::getContent($dataTable, $this->new_columns);
+            $tbody = Table::getContent($dataTable, $this->rol, $this->new_columns);
             $paginator = Table::createPagination($pages, $this->page);
             return ['tbody' => $tbody, 'paginator' => $paginator];
         }
 
         // Get table
-        $table = new Table($dataTable, $this->selectors, $pages, $this->new_columns, $this->fieldsTranslated);
-        $resul = $this->getModal();
+        $table = new Table($dataTable, $this->rol, $this->selectors, $pages, $this->new_columns, $this->fieldsTranslated);
+        $resul = $this->getModal($this->rol);
         $resul .= $table->getTable();
         return $resul;
     }
@@ -141,8 +143,12 @@ class PaginationTable
         return $this->lastError;
     }
 
-    public function getModal()
+    public function getModal($rol)
     {
+        if($rol!="admin"){
+            return;
+        }
+
         $insert = '<div class="container "><button type="button" class="insert-button btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">INSERT</button></div>';
         $insert .= '<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">

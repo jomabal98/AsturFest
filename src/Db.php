@@ -149,7 +149,7 @@ class Db
                         $query .= "'" . $value . "',";
                     }
                 }
-
+                
                 $query = substr($query, 0, -1) . ');';
                 break;
 

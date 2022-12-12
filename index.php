@@ -35,12 +35,27 @@ $fieldsTranslated = [
         'type' => 'text'
     ]
 ];
-$paginationTable = new PaginationTable(new Db(), $nameTable, $page, $limit, $new_columns, $fieldsTranslated);
+$rol = "user_r";
+$paginationTable = new PaginationTable(new Db(), $rol, $nameTable, $page, $limit, $new_columns, $fieldsTranslated);
 $table = $paginationTable->get();
 if (!$table) {
     die($paginationTable->getLastError());
 }
 
+if ($rol == "user_nr") {
+    $btn = '<div class="btn-group dropstart d-flex">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+      Perfil
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+      <li><a class="dropdown-item" href="#">Favoritos</a></li>
+      <li><a class="dropdown-item" href="#">Cerrar Seción</a></li>
+    </ul>
+  </div>';
+} else {
+    $btn = '<form class="d-flex" action="login.php">
+    <button class=" btn btn-outline-primary">Iniciar Sesion</button></form>';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,9 +81,7 @@ if (!$table) {
                 <a class="navbar-brand" href="#"><img src="views/img/favicon.ico" width="20" height="20">AsturEvent</a>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 </ul>
-                <form class="d-flex" action="login.php">
-                    <button class=" btn btn-outline-primary">Iniciar Sesion</button>
-                </form>
+                <?php echo $btn; ?>
             </div>
         </div>
     </nav>
@@ -83,8 +96,9 @@ if (!$table) {
         var new_col = <?= json_encode($new_columns) ?>;
         var nameTable = <?= json_encode($nameTable) ?>;
         var fieldsTranslated = <?= json_encode($fieldsTranslated) ?>;
+        var rol = <?= json_encode($rol) ?>;
     </script>
-    <script src="views/js/srciptAdminMenu.js"></script>
+    <script src="views/js/script.js"></script>
 </body>
 
 </html>

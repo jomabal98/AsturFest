@@ -49,7 +49,7 @@ switch ($action) {
         }
 
         if (!isset($_POST['new_columns']) || !is_array($_POST['new_columns'])) {
-            echo json_encode(['error' => "new_columns incorrect"]);
+            $_POST['new_columns'] = ["" => ""];
         }
 
         if (!isset($_POST['nameTable']) || empty($_POST['nameTable'])) {
@@ -60,7 +60,11 @@ switch ($action) {
             echo json_encode(['error' => "fieldsTranslated incorrect"]);
         }
 
-        $paginationTable = new PaginationTable(new Db(), (string) $_POST['nameTable'], (int) $_POST['page'], (int) $_POST['numSelector'], (array) $_POST['new_columns'], (array)$_POST['fieldsTranslated'], (string) $_POST['orderBy'], (string) $_POST['orderWay'], (string)$where);
+        if (!isset($_POST['rol']) || empty($_POST['rol'])) {
+            echo json_encode(['error' => "rol incorrect"]);
+        }
+
+        $paginationTable = new PaginationTable(new Db(), (string) $_POST['rol'],(string) $_POST['nameTable'], (int) $_POST['page'], (int) $_POST['numSelector'], (array) $_POST['new_columns'], (array)$_POST['fieldsTranslated'], (string) $_POST['orderBy'], (string) $_POST['orderWay'], (string)$where);
         $table = $paginationTable->get(true);
         if (!$table) {
             echo json_encode(['error' => $paginationTable->getLastError()]);
@@ -91,7 +95,7 @@ switch ($action) {
             echo json_encode(['error' => "fieldsTranslated incorrect"]);
         }
 
-        $paginationTable = new PaginationTable(new Db(), (string) $_POST['nameTable'], (int) $_POST['page'], (int) $_POST['limit'], (array) $_POST['new_columns'], (array)$_POST['fieldsTranslated']);
+        $paginationTable = new PaginationTable(new Db(), (string) $_POST['rol'],(string) $_POST['nameTable'], (int) $_POST['page'], (int) $_POST['limit'], (array) $_POST['new_columns'], (array)$_POST['fieldsTranslated']);
         $table = $paginationTable->get();
         if (!$table) {
             echo json_encode(['error' => $paginationTable->getLastError()]);
@@ -114,13 +118,17 @@ switch ($action) {
             echo json_encode(['error' => "name incorrect"]);
         }
 
+        if (!isset($_POST['password']) || empty($_POST['password'])) {
+            echo json_encode(['error' => "password incorrect"]);
+        }
+
         if (!isset($_POST['age']) || $_POST['age'] < 1) {
             echo json_encode(['error' => "mail incorrect"]);
         }
 
         $db = new Db();
         $db->setTable($_POST['nameTable']);
-        $query = $db->getQuery('INSERT', ["name" => "{$_POST['name']}", "rol" => 0, "mail" => "{$_POST['mail']}", "age" => $_POST['age'], "favs" => ""]);
+        $query = $db->getQuery('INSERT', ["name" => "{$_POST['name']}","password"=>"{$_POST['password']}", "rol" => 0, "mail" => "{$_POST['mail']}", "age" => $_POST['age'], "favs" => ""]);
         $result = $db->executeS($query);
         if (!$result) {
             $result = $db->getLastError();
@@ -163,7 +171,7 @@ switch ($action) {
 
         $db = new Db();
         $db->setTable($_POST['nameTable']);
-        $query = $db->getQuery('INSERT', ["name" => "{$_POST['name']}", "date_init" => "{$_POST['date_init']}", "date_end" => "{$_POST['date_end']}", "photo" => "{$_POST['photo']}","type" => "{$_POST['type']}","place" => "{$_POST['place']}",]);
+        $query = $db->getQuery('INSERT', ["name" => "{$_POST['name']}", "date_init" => "{$_POST['date_init']}", "date_end" => "{$_POST['date_end']}", "photo" => "{$_POST['photo']}", "type" => "{$_POST['type']}", "place" => "{$_POST['place']}",]);
         $result = $db->executeS($query);
         if (!$result) {
             $result = $db->getLastError();

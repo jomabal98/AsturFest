@@ -5,11 +5,11 @@ class Table
     private static $new_columns;
     private static $translatorFields;
 
-    public function __construct(array $dataTable, array $selectors, int $pages, array $new_columns, array $translatorFields)
+    public function __construct(array $dataTable, string $rol, array $selectors, int $pages, array $new_columns, array $translatorFields)
     {
         self::$new_columns = $new_columns;
         self::$translatorFields = $translatorFields;
-        $this->table = $this->get($dataTable, $selectors, $pages, $translatorFields);
+        $this->table = $this->get($dataTable, $rol, $selectors, $pages, $translatorFields);
     }
 
     /**
@@ -33,18 +33,18 @@ class Table
      * @return string
      */
 
-    private function get(array $dataTable, array $selectors, int $pages, array $translatorFields): string
+    private function get(array $dataTable, string $rol,array $selectors, int $pages, array $translatorFields): string
     {
         if (empty($dataTable)) {
             return '';
         }
 
-        $table = '<div class="container">';
+        $table = '<div class="container table-responsive">';
         $table .= $this->createSelector($selectors);
         $table .= '<table class="table table-striped">';
         $arrayClaves = array_keys(get_object_vars($dataTable[0]));
         $table .= $this->createHeader($arrayClaves, $translatorFields);
-        $table .= self::getContent($dataTable, self::$new_columns);
+        $table .= self::getContent($dataTable, $rol, self::$new_columns);
         $table .= '</table>';
         $table .= self::createPagination($pages);
         $table .= '</div>';
@@ -88,7 +88,7 @@ class Table
             if ($key == "photo" && $tag == "td" && !empty($column)) {
                 $column = '<img src="' . $column . '" width="50" height="50">';
             }
-
+            
             $tr .= self::getColumn($column, $tag);
         }
 
@@ -117,7 +117,7 @@ class Table
      * @return string $tbody
      */
 
-    static public function getContent(array $dataTable, array $new_columns = []): string
+    static public function getContent(array $dataTable, string $rol, array $new_columns = []): string
     {
         if (empty($dataTable)) {
             return '';

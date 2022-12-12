@@ -3,34 +3,7 @@ let orderWay;
 let id;
 let date1 = "";
 let date2 = "";
-let rol = "admin";
-user = {
-    'id': {
-        'translator': 'Identificador'
-    },
-    'rol': {
-        'translator': 'Rol'
-    },
-    'name': {
-        'translator': 'Nombre',
-        'type': 'text'
-    },
-    'password': {
-        'translator': 'Contraseña',
-        'type': 'password'
-    },
-    'mail': {
-        'translator': 'Mail',
-        'type': 'text'
-    },
-    'age': {
-        'translator': 'Edad',
-        'type': 'number'
-    },
-    'favs': {
-        'translator': 'Favoritos',
-    }
-};
+
 evento = {
     'id': {
         'translator': 'Identificador'
@@ -81,7 +54,6 @@ function updateTable(orderBy = 'id', orderWay = 'ASC') {
     } else {
         fieldsTranslated = user;
     }
-
     let params = { 'numSelector': selected, 'page': page, 'orderBy': orderBy, 'orderWay': orderWay, 'new_columns': new_col, 'date1': date1, 'date2': date2, 'nameTable': nameTable, 'fieldsTranslated': fieldsTranslated, 'rol': rol };
     callAjax('POST', 'updateTable', params, function (data) {
         if (data['error']) {
@@ -161,27 +133,6 @@ $(document).on("click", "th", function () {
 })
 
 /**
- * onclick function used when u click on delete button 
- */
-
-$(document).on("click", ".delete", function () {
-    id = $(this).parent().siblings(":first").text();
-    if (id < 1) {
-        return;
-    }
-
-    $param = { 'id': id, 'nameTable': nameTable };
-    callAjax('GET', 'delete', $param, function (data) {
-        if (data['result'] === true) {
-            updateTable(orderBy, orderWay);
-            return;
-        }
-
-        return alert(data['result']);
-    })
-})
-
-/**
  * Ajax calls builder
  * 
  * @param string type 
@@ -222,46 +173,6 @@ $(document).on("change", "#date2", function () {
     $('#date1').attr('max', $(this).val());
 })
 
-$(document).on("change", ".Fecha_de_inicio", function () {
-    $('.Fecha_de_finalizacion').attr('min', $(this).val());
-})
-
-$(document).on("change", ".Fecha_de_finalizacion", function () {
-    $('.Fecha_de_inicio').attr('max', $(this).val());
-})
-
-$(document).on("click", ".event", function () {
-    changeTable("event");
-})
-
-$(document).on("click", ".user", function () {
-    changeTable("user");
-})
-
-function changeTable(table) {
-    if (table == "event") {
-        fieldsTranslated = evento;
-    } else {
-        fieldsTranslated = user;
-    }
-
-    nameTable = table;
-    let params = { 'page': 1, 'new_columns': new_col, 'nameTable': nameTable, 'limit': 5, 'fieldsTranslated': fieldsTranslated, 'rol': rol };
-    callAjax('POST', 'changeTable', params, function (data) {
-        if (data['error']) {
-            return alert(data['error']);
-        }
-
-
-        $('.container').remove();
-        $('nav').after(data['table']);
-        if (nameTable == "user") {
-            $('.input-search').remove();
-        }
-    });
-
-}
-
 $(document).on("click", ".hide", function () {
     $('#date1').val("");
     $('#date2').val("");
@@ -269,80 +180,3 @@ $(document).on("click", ".hide", function () {
     $('table').show();
     $('.nav_pagination').show();
 })
-
-let error = false;
-$(document).on("click", ".send", function () {
-    error = false;
-    let params;
-    if (nameTable == "user") {
-        validateEmail($('.Mail').val())
-        if ($('.Contraseña').val().length < 4 || $('.Contraseña').val().length > 16) {
-            error = true;
-        }
-
-        if ($('.Edad').val() < 1 && $('.Nombre').val().length <= 0) {
-            error = true;
-        }
-
-        if (error) {
-            alert("datos mal introducidos");
-            return;
-        }
-
-        params = { 'name': $('.Nombre').val(), 'age': $('.Edad').val(), 'mail': $('.Mail').val(), 'nameTable': nameTable, 'password': $('.Contraseña').val() };
-    } else {
-        let dateInit = $('.Fecha_de_inicio').val().replaceAll("-", "");
-        let dateEnd = $('.Fecha_de_finalizacion').val().replaceAll("-", "");
-        if ($('.Nombre').val().length <= 0 || $('.Lugar').val().length <= 0 || $('.Tipo').val().length <= 0 || $('.Imagen').val().length <= 0) {
-            error = true;
-        }
-
-        validateFileType();
-        if (error) {
-            alert("datos mal introducidos");
-            return;
-        }
-
-        params = { 'name': $('.Nombre').val(), 'photo': $('.Imagen').val(), 'place': $('.Lugar').val(), 'type': $('.Tipo').val(), 'nameTable': nameTable, 'date_init': dateInit, 'date_end': dateEnd };
-    }
-
-    let post = "";
-    if (nameTable == "event") {
-        post = "insertEvent";
-    } else {
-        post = "insertUser";
-    }
-
-    callAjax('POST', post, params, function (data) {
-        if (data['error']) {
-            return alert(data['error']);
-        }
-        $('.ins').remove();
-        $('.insert-button').after("<p class='ins'><b>Insertado correctamente</b></p>");
-        $('#exampleModal').modal('hide');
-        updateTable();
-        $('input').val("");
-    })
-
-})
-
-function validateEmail(value) {
-    if (!(/^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/.test(value))) {
-        error = true;
-    }
-
-}
-
-if (nameTable == "user") {
-    $('.input-search').remove();
-}
-
-function validateFileType() {
-    var fileName = $(".Imagen").val();
-    var idxDot = fileName.lastIndexOf(".") + 1;
-    var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
-    if (extFile != "jpg" && extFile != "jpeg" && extFile != "png") {
-        error = true;
-    }
-
-}
