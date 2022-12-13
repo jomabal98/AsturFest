@@ -33,7 +33,7 @@ class Table
      * @return string
      */
 
-    private function get(array $dataTable, string $rol,array $selectors, int $pages, array $translatorFields): string
+    private function get(array $dataTable, string $rol, array $selectors, int $pages, array $translatorFields): string
     {
         if (empty($dataTable)) {
             return '';
@@ -88,7 +88,16 @@ class Table
             if ($key == "photo" && $tag == "td" && !empty($column)) {
                 $column = '<img src="' . $column . '" width="50" height="50">';
             }
-            
+
+            if ($key == "name" && $tag == "td" && !empty($column)) {
+                $tr .= '<td class="name" scope="col">' . $column . '</td>';
+                continue;
+            }
+
+            if ($key == "description") {
+                continue;
+            }
+
             $tr .= self::getColumn($column, $tag);
         }
 

@@ -35,14 +35,14 @@ $fieldsTranslated = [
         'type' => 'text'
     ]
 ];
-$rol = "user_r";
+$rol = "user_nr";
 $paginationTable = new PaginationTable(new Db(), $rol, $nameTable, $page, $limit, $new_columns, $fieldsTranslated);
 $table = $paginationTable->get();
 if (!$table) {
     die($paginationTable->getLastError());
 }
 
-if ($rol == "user_nr") {
+if ($rol == "user_r") {
     $btn = '<div class="btn-group dropstart d-flex">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
       Perfil

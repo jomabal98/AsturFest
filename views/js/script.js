@@ -180,3 +180,8 @@ $(document).on("click", ".hide", function () {
     $('table').show();
     $('.nav_pagination').show();
 })
+
+$(document).on("click", ".name", function () {
+    let id=$(this).siblings(":first").text()
+    location.href =`event.php/?id=${id}&`;
+})

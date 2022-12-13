@@ -5,7 +5,8 @@
         "date_end": "20230827",
         "place": "Luarca",
         "type": "fiesta local",
-        "photo": "views/img/eventos/xiringuelu.jpg"
+        "photo": "views/img/eventos/SanTimoteo.jpg",
+        "description": "San Timoteo es una de las romerías más populosas y divertidas de Asturias. Con un singular Santo que recibe todo tipo de meneos; confianzas quizás excesivas por parte de los feligreses. Pero es que para ellos, San Timoteo es como un amigo con el que pueden compartir juerga y canciones populares durante todo el día."
     },
     {
         "name": "Concierto Andy & Lucas",
@@ -13,7 +14,8 @@
         "date_end": "20230228",
         "place": "Oviedo",
         "type": "concierto",
-        "photo": "views/img/eventos/xiringuelu.jpg"
+        "photo": "views/img/eventos/Andy&Lucas.jpg",
+        "description": "VEINTE AÑOS EN VEINTE CANCIONES, un dúo que se ha ganado un lugar en la historia de la música en nuestro país. Dos chicos de barrio, dos compañeros de colegio, dos amigos que iniciaron juntos un viaje que continúa después de quince años."
     },
     {
         "name": "Xiringüelu",
@@ -21,7 +23,8 @@
         "date_end": "20230802",
         "place": "Pravia",
         "type": "fiesta local",
-        "photo": "views/img/eventos/xiringuelu.jpg"
+        "photo": "views/img/eventos/xiringuelu.jpg",
+        "description": "Esta celebración se distingue por la construcción de casetas artesanales, realizada por las peñas del pueblo. En estas se consume sidra y comida desde la mañana hasta la noche. Los romeros que no tienen caseta disfrutan de la fiesta visitando éstas o en la zona más amplia del prado con bebidas y comida. En los últimos años la asistencia fue superior a 30 000 personas."
     },
     {
         "name": "Concierto Alejandro Sanz",
@@ -29,7 +32,8 @@
         "date_end": "20230724",
         "place": "Áviles",
         "type": "concierto",
-        "photo": "views/img/eventos/xiringuelu.jpg"
+        "photo": "views/img/eventos/AlejandroSanz.jpg",
+        "description": "Alejandro Sánchez Pizarro, más conocido profesionalmente como Alejandro Sanz, nació en Madrid el 18 de diciembre de 1968. Desde pequeño se interesó por la música y, en especial, por la composición. Cuando solo era un adolescente, formó un grupo musical de heavy metal que se dedicaba a tocar en pequeños bares y clubes."
     },
     {
         "name": "Riverland",
@@ -37,7 +41,8 @@
         "date_end": "20230726",
         "place": "Arriondas",
         "type": "festival",
-        "photo": "views/img/eventos/xiringuelu.jpg"
+        "photo": "views/img/eventos/Riverland.jpg",
+        "description": "Riverland es mucho más que un festival, es un parque temático donde el púbico podrá disfrutar de los conciertos desde un globo aerostático o desde una noria y que contará con una zona de Escape rooms, o una zona donde ponerte “bello” con maquilladores, peluqueros o esteticistas, al estilo de festivales internacionales como Coachella."
     },
     {
         "name": "AquaSella",
@@ -45,7 +50,8 @@
         "date_end": "20230827",
         "place": "Cangas de Onís",
         "type": "festival",
-        "photo": "views/img/eventos/xiringuelu.jpg"
+        "photo": "views/img/eventos/aquasella.jpg",
+        "description":"Festival de música electrónica que se celebra cada año en Arriondas, Principado de Asturias, España. La primera edición del festival fue en el año 1997 con una asistencia aproximada de un millar de personas y en la edición del año 2010 asistieron más de 30.000 espectadores."
     },
     {
         "name": "Concierto Duki",
@@ -53,6 +59,7 @@
         "date_end": "20230921",
         "place": "Oviedo",
         "type": "concierto",
-        "photo": "views/img/eventos/xiringuelu.jpg"
+        "photo": "views/img/eventos/Duki.jpeg",
+        "description":"Mauro Ezequiel Lombardo Quiroga (Almagro, Buenos Aires, 24 de junio de 1996), conocido artísticamente como Duki, es un rapero y compositor argentino. Es reconocido por haber popularizado el género del trap en la música mainstream hispanohablante a fines de la década de los 2010, y por su utilización del autotune en sus vocales y sus ganchos melódicos en su estilo de rapeo."
     }
 ]

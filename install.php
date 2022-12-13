@@ -29,7 +29,7 @@ if ($resultado) {
 
 //create table event
 $db->setTable('event');
-$atr = ["id" => "smallint auto_increment PRIMARY KEY", "name" => "varchar(30)", "date_init" => "date", "date_end" => "date", "place" => "varchar(50)", "type" => "varchar(20)", "photo" => "varchar(50)"];
+$atr = ["id" => "smallint auto_increment PRIMARY KEY", "name" => "varchar(30)", "date_init" => "date", "date_end" => "date", "place" => "varchar(50)", "type" => "varchar(20)", "photo" => "varchar(50)", "description"=> "varchar(500)"];
 if (!$db->checkTable($atr)) {
     echo $db->getLastError();
 }
@@ -57,3 +57,13 @@ if ($resultado) {
 } else {
     echo $db->getLastError();
 }
+
+//create table favorites
+$db->setTable('favorites');
+$atr = ["id" => "smallint auto_increment PRIMARY KEY", "idUser" => "smallint", "idEvent" => "smallint"];
+if (!$db->checkTable($atr)) {
+    echo $db->getLastError();
+    die();
+}
+
+echo "Consulta correctamente en " . $db->getTable() . "<hr>";
