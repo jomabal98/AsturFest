@@ -13,7 +13,7 @@ $(document).on("click", ".bi-heart", function () {
     }
 })
 
-function callAjax(type = 'POST', action = 'updateTable', params, success, dataType = 'json', urlAjax = 'ajax.php') {
+function callAjax(type = 'POST', action = 'updateTable', params, success, dataType = 'json', urlAjax = '../ajax.php') {
     $.ajax({
         type,
         url: urlAjax + "?action=" + action,
