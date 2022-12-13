@@ -110,7 +110,6 @@ class Db
             $this->code_error = $e->getCode();
             return false;
         }
-        
     }
 
     /**
@@ -149,7 +148,7 @@ class Db
                         $query .= "'" . $value . "',";
                     }
                 }
-                
+
                 $query = substr($query, 0, -1) . ');';
                 break;
 
@@ -168,9 +167,8 @@ class Db
                     if (isset($params['orderWay']) && ($params['orderWay'] == 'ASC' || $params['orderWay'] == 'DESC')) {
                         $query .= " {$params['orderWay']}";
                     }
-
                 }
-                
+
                 if (isset($params['page']) && $params['page'] > 0 && isset($params['limit']) && $params['limit'] > 0) {
                     $offset = ($params['page'] - 1) * $params['limit'];
                     $query .= " LIMIT {$offset} , {$params['limit']}";
@@ -182,23 +180,23 @@ class Db
                 break;
 
             case 'UPDATE':
-                if (!isset($params['set']) || empty($params['set']) ) {
+                if (!isset($params['set']) || empty($params['set'])) {
                     return false;
                 }
 
                 $sets = [];
-                foreach($params['set'] as $field => $value){
+                foreach ($params['set'] as $field => $value) {
                     $sets[] = "{$field} = '{$value}'";
                 }
 
                 $query = "UPDATE {$this->table} SET " . implode(',', $sets);
-                $where=[];
-                if(isset($params['where']) && !empty($params['where'])){
-                    foreach($params['where'] as $field => $value){
+                $where = [];
+                if (isset($params['where']) && !empty($params['where'])) {
+                    foreach ($params['where'] as $field => $value) {
                         $where[] = "{$field} = '{$value}'";
                     }
 
-                    $query .=" WHERE ". implode(',', $where);
+                    $query .= " WHERE " . implode(',', $where);
                 }
 
                 break;
@@ -215,7 +213,7 @@ class Db
 
                 $query .= "(";
                 foreach ($params['attrib'] as $key => $value) {
-                    if (empty(trim($key))||empty(trim($value))) {
+                    if (empty(trim($key)) || empty(trim($value))) {
                         return false;
                     }
                     $query .= $key . ' ' . $value . ",";
@@ -236,7 +234,6 @@ class Db
             default:
                 return false;
                 break;
-
         }
 
         return $query;
@@ -286,7 +283,7 @@ class Db
      * @return bool
      */
 
-    public function checkTable($attrib=[]): bool
+    public function checkTable($attrib = []): bool
     {
         $query = $this->getQuery('SELECT', array('col' => '*'));
         $result = $this->executeS($query);
@@ -306,5 +303,4 @@ class Db
 
         return false;
     }
-
 }

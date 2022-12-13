@@ -16,7 +16,7 @@ class PaginationTable
     private $where = "";
     private $new_columns = [];
     private $fieldsTranslated = [];
-    private $rol="";
+    private $rol = "";
 
     public function __construct(Db $db, string $rol, string $table, int $page, int $limit, array $new_columns, array $fieldsTranslated, string $orderBy = "id", string $orderWay = "ASC", string $where = "", string $select = '*', array $selectors = [5, 10, 20, 30])
     {
@@ -31,7 +31,7 @@ class PaginationTable
         $this->new_columns = $new_columns;
         $this->fieldsTranslated = $fieldsTranslated;
         $this->db->setTable($table);
-        $this->rol=$rol;
+        $this->rol = $rol;
     }
 
     /**
@@ -145,7 +145,7 @@ class PaginationTable
 
     public function getModal($rol)
     {
-        if($rol!="admin"){
+        if ($rol != "admin") {
             return;
         }
 

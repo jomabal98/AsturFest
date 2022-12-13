@@ -64,7 +64,7 @@ switch ($action) {
             echo json_encode(['error' => "rol incorrect"]);
         }
 
-        $paginationTable = new PaginationTable(new Db(), (string) $_POST['rol'],(string) $_POST['nameTable'], (int) $_POST['page'], (int) $_POST['numSelector'], (array) $_POST['new_columns'], (array)$_POST['fieldsTranslated'], (string) $_POST['orderBy'], (string) $_POST['orderWay'], (string)$where);
+        $paginationTable = new PaginationTable(new Db(), (string) $_POST['rol'], (string) $_POST['nameTable'], (int) $_POST['page'], (int) $_POST['numSelector'], (array) $_POST['new_columns'], (array)$_POST['fieldsTranslated'], (string) $_POST['orderBy'], (string) $_POST['orderWay'], (string)$where);
         $table = $paginationTable->get(true);
         if (!$table) {
             echo json_encode(['error' => $paginationTable->getLastError()]);
@@ -95,7 +95,7 @@ switch ($action) {
             echo json_encode(['error' => "fieldsTranslated incorrect"]);
         }
 
-        $paginationTable = new PaginationTable(new Db(), (string) $_POST['rol'],(string) $_POST['nameTable'], (int) $_POST['page'], (int) $_POST['limit'], (array) $_POST['new_columns'], (array)$_POST['fieldsTranslated']);
+        $paginationTable = new PaginationTable(new Db(), (string) $_POST['rol'], (string) $_POST['nameTable'], (int) $_POST['page'], (int) $_POST['limit'], (array) $_POST['new_columns'], (array)$_POST['fieldsTranslated']);
         $table = $paginationTable->get();
         if (!$table) {
             echo json_encode(['error' => $paginationTable->getLastError()]);
@@ -128,7 +128,7 @@ switch ($action) {
 
         $db = new Db();
         $db->setTable($_POST['nameTable']);
-        $query = $db->getQuery('INSERT', ["name" => "{$_POST['name']}","password"=>"{$_POST['password']}", "rol" => 0, "mail" => "{$_POST['mail']}", "age" => $_POST['age'], "favs" => ""]);
+        $query = $db->getQuery('INSERT', ["name" => "{$_POST['name']}", "password" => "{$_POST['password']}", "rol" => 0, "mail" => "{$_POST['mail']}", "age" => $_POST['age'], "favs" => ""]);
         $result = $db->executeS($query);
         if (!$result) {
             $result = $db->getLastError();
@@ -194,20 +194,20 @@ switch ($action) {
         $password = $_POST['password'];
         $db = new Db();
         $db->setTable("user");
-        $query = $db->getQuery('SELECT', ["col" => "*","where"=>"name='{$name}' AND password='{$password}'"]);
+        $query = $db->getQuery('SELECT', ["col" => "*", "where" => "name='{$name}' AND password='{$password}'"]);
         $result = $db->executeS($query);
         if (!$result) {
             $result = $db->getLastError();
         } else {
-            $data=$result->fetchAll(PDO::FETCH_CLASS, "User");
+            $data = $result->fetchAll(PDO::FETCH_CLASS, "User");
             if (empty($data)) {
                 echo json_encode(['result' => "Credenciales erroneas"]);
                 return;
             }
 
             session_start();
-            $_SESSION["id"]=$data[0]->id;
-            $_SESSION["rol"]=$data[0]->rol;
+            $_SESSION["id"] = $data[0]->id;
+            $_SESSION["rol"] = $data[0]->rol;
             $result = true;
         }
 

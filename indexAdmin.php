@@ -30,7 +30,7 @@ $fieldsTranslated = [
         'type' => 'number'
     ]
 ];
-$rol="admin";
+$rol = "admin";
 $paginationTable = new PaginationTable(new Db(), $rol, $nameTable, $page, $limit, $new_columns, $fieldsTranslated);
 $table = $paginationTable->get();
 if (!$table) {

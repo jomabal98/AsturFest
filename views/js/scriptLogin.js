@@ -1,9 +1,9 @@
-$(document).on("click",".btn",function(e){
+$(document).on("click", ".btn", function (e) {
     e.preventDefault();
     $param = { 'name': $('#userName').val(), 'password': $('#pwd').val() };
     callAjax('POST', 'log', $param, function (data) {
         if (data['result'] === true) {
-            location.href ='controller.php';
+            location.href = 'controller.php';
             return;
         }
 

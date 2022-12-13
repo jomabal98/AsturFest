@@ -51,7 +51,7 @@
         "place": "Cangas de Onís",
         "type": "festival",
         "photo": "views/img/eventos/aquasella.jpg",
-        "description":"Festival de música electrónica que se celebra cada año en Arriondas, Principado de Asturias, España. La primera edición del festival fue en el año 1997 con una asistencia aproximada de un millar de personas y en la edición del año 2010 asistieron más de 30.000 espectadores."
+        "description": "Festival de música electrónica que se celebra cada año en Arriondas, Principado de Asturias, España. La primera edición del festival fue en el año 1997 con una asistencia aproximada de un millar de personas y en la edición del año 2010 asistieron más de 30.000 espectadores."
     },
     {
         "name": "Concierto Duki",
@@ -60,6 +60,6 @@
         "place": "Oviedo",
         "type": "concierto",
         "photo": "views/img/eventos/Duki.jpeg",
-        "description":"Mauro Ezequiel Lombardo Quiroga (Almagro, Buenos Aires, 24 de junio de 1996), conocido artísticamente como Duki, es un rapero y compositor argentino. Es reconocido por haber popularizado el género del trap en la música mainstream hispanohablante a fines de la década de los 2010, y por su utilización del autotune en sus vocales y sus ganchos melódicos en su estilo de rapeo."
+        "description": "Mauro Ezequiel Lombardo Quiroga (Almagro, Buenos Aires, 24 de junio de 1996), conocido artísticamente como Duki, es un rapero y compositor argentino. Es reconocido por haber popularizado el género del trap en la música mainstream hispanohablante a fines de la década de los 2010, y por su utilización del autotune en sus vocales y sus ganchos melódicos en su estilo de rapeo."
     }
 ]
