@@ -28,9 +28,6 @@ $fieldsTranslated = [
     'age' => [
         'translator' => 'Edad',
         'type' => 'number'
-    ],
-    'favs' => [
-        'translator' => 'Favoritos',
     ]
 ];
 $rol="admin";
@@ -72,7 +69,7 @@ if (!$table) {
                     </li>
                 </ul>
                 <form class="d-flex" action="index.php">
-                    <button class=" btn btn-outline-danger">Cerrar Sesion</button>
+                    <button class=" btn btn-outline-danger" href="close.php">Cerrar Sesion</button>
                 </form>
             </div>
         </div>

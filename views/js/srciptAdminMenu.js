@@ -26,9 +26,6 @@ user = {
     'age': {
         'translator': 'Edad',
         'type': 'number'
-    },
-    'favs': {
-        'translator': 'Favoritos',
     }
 };
 evento = {

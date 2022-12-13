@@ -181,7 +181,39 @@ switch ($action) {
 
         echo json_encode(['result' => $result]);
         break;
+    case 'log':
+        if (!isset($_POST['name']) || empty($_POST['name'])) {
+            echo json_encode(['error' => "name incorrect"]);
+        }
+
+        if (!isset($_POST['password']) || empty($_POST['password'])) {
+            echo json_encode(['error' => "password incorrect"]);
+        }
+
+        $name = $_POST['name'];
+        $password = $_POST['password'];
+        $db = new Db();
+        $db->setTable("user");
+        $query = $db->getQuery('SELECT', ["col" => "*","where"=>"name='{$name}' AND password='{$password}'"]);
+        $result = $db->executeS($query);
+        if (!$result) {
+            $result = $db->getLastError();
+        } else {
+            $data=$result->fetchAll(PDO::FETCH_CLASS, "User");
+            if (empty($data)) {
+                echo json_encode(['result' => "Credenciales erroneas"]);
+                return;
+            }
+
+            session_start();
+            $_SESSION["id"]=$data[0]->id;
+            $_SESSION["rol"]=$data[0]->rol;
+            $result = true;
+        }
+
+        echo json_encode(['result' => $result]);
+        break;
     default:
-        die(header("Refresh:5; url=indexAdmin.php"));
+        die(header("Refresh:5; url=index.php"));
         break;
 }

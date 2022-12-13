@@ -98,6 +98,10 @@ class Table
                 continue;
             }
 
+            if ($key == "") {
+                $tr .= '<td class="acction" scope="col">' . $column . '</td>';
+                continue;
+            }
             $tr .= self::getColumn($column, $tag);
         }
 

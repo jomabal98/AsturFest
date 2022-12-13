@@ -9,12 +9,12 @@ if (!$db->checkDataBase()) {
 
 //create table user
 $db->setTable('user');
-$atr = ["id" => "smallint auto_increment PRIMARY KEY", "rol" => "smallint", "name" => "varchar(30)", "password" => "varchar(16)", "mail" => "varchar(30)", "age" => "smallint", "favs" => "varchar(255)"];
+$atr = ["id" => "smallint auto_increment PRIMARY KEY", "rol" => "smallint", "name" => "varchar(30)", "password" => "varchar(16)", "mail" => "varchar(30)", "age" => "smallint"];
 if (!$db->checkTable($atr)) {
     echo $db->getLastError();
 }
 
-$query = $db->getQuery('INSERT', ["rol" => 1, "name" => "Admin", "password" => "admin", "mail" => "admin", "age" => "24", "favs" => "admin"]);
+$query = $db->getQuery('INSERT', ["rol" => 1, "name" => "Admin", "password" => "admin", "mail" => "admin", "age" => "24"]);
 if (!$query) {
     die($db->getLastError());
 }
