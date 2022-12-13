@@ -103,6 +103,7 @@ class Db
         }
 
         try {
+            // var_dump($query);
             $result = $connexion->query($query);
             return $result;
         } catch (PDOException $e) {
@@ -125,11 +126,11 @@ class Db
     {
         switch ($type) {
             case 'DELETE':
-                if (!intval($params['value'], 10) == true || $params['value'] < 1) {
+                if (!isset($params['value']) || empty(trim($params['value']))) {
                     return false;
                 }
 
-                $query = "DELETE FROM " . $this->table . " WHERE id = " . $params['value'] . ";";
+                $query = "DELETE FROM " . $this->table . " WHERE " . $params['value'] . ";";
                 break;
 
             case 'INSERT':

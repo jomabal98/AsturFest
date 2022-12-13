@@ -2,6 +2,7 @@
 require_once __DIR__ . '/src/PaginationTable.php';
 require_once __DIR__ . '/src/Db.php';
 
+session_start();
 $action = $_GET['action'];
 switch ($action) {
     case 'delete':
@@ -15,7 +16,7 @@ switch ($action) {
         $id = $_GET['id'];
         $db = new Db();
         $db->setTable($_GET['nameTable']);
-        $query = $db->getQuery('DELETE', ["value" => $id]);
+        $query = $db->getQuery('DELETE', ["value" => "id = {$id}"]);
         $result = $db->executeS($query);
         if (!$result) {
             $result = $db->getLastError();
@@ -181,6 +182,7 @@ switch ($action) {
 
         echo json_encode(['result' => $result]);
         break;
+
     case 'log':
         if (!isset($_POST['name']) || empty($_POST['name'])) {
             echo json_encode(['error' => "name incorrect"]);
@@ -205,7 +207,6 @@ switch ($action) {
                 return;
             }
 
-            session_start();
             $_SESSION["id"] = $data[0]->id;
             $_SESSION["rol"] = $data[0]->rol;
             $result = true;
@@ -213,6 +214,41 @@ switch ($action) {
 
         echo json_encode(['result' => $result]);
         break;
+    
+    case 'favAction':
+        if (!isset($_POST['idEvent']) || empty($_POST['idEvent'])) {
+            echo json_encode(['error' => "idEvent incorrect"]);
+        }
+        var_dump($_POST['idEvent']);
+        $db = new Db();
+        $db->setTable("favorites");
+        $query = $db->getQuery('SELECT', ["col" => "*", "where" => "idUser='{$_SESSION["id"]}' AND idEvent='{$_POST['idEvent']}'"]);
+        $result = $db->executeS($query);
+        if (!$result) {
+            $result = $db->getLastError();
+        } else {
+            if($result->rowCount()==0){
+                $query = $db->getQuery('INSERT', ["idUser" => "{$_SESSION["id"]}", "idEvent" => "{$_POST['idEvent']}"]);
+                $result = $db->executeS($query);
+                if (!$result) {
+                    $result = $db->getLastError();
+                } else {
+                    $result = true;
+                }
+            }else{
+                $query = $db->getQuery('DELETE', ["value" => "idUser = {$_SESSION["id"]} AND idEvent = {$_POST['idEvent']}"]);
+                $result = $db->executeS($query);
+                if (!$result) {
+                    $result = $db->getLastError();
+                } else {
+                    $result = true;
+                }
+            }
+        }
+
+        echo json_encode(['result' => $result]);
+        break;
+
     default:
         die(header("Refresh:5; url=index.php"));
         break;

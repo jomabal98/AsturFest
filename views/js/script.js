@@ -183,13 +183,21 @@ $(document).on("click", ".hide", function () {
 
 $(document).on("click", ".name", function () {
     let id = $(this).siblings(":first").text()
-    location.href = `event.php/?id=${id}&`;
+    location.href = `event.php/?id=${id}`;
 })
 
-let user = "user_nr"
+
 $(document).on("click", ".bi-heart", function () {
-    if (user == "user_r") {
-        $(this).html("<path fill-rule='evenodd' d='M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z'/>");
+    if (rol == "user_r") {
+        let idEvent = $(this).parent().siblings(":first").text()
+        let params = {'idEvent': idEvent };
+        callAjax('POST', 'favAction', params, function (data) {
+            if (data['result']) {
+                updateTable();
+            }
+    
+        });
+
     } else {
         alert("No estas registrado");
     }
