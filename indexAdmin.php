@@ -2,6 +2,12 @@
 require_once __DIR__ . '/src/PaginationTable.php';
 require_once __DIR__ . '/src/Db.php';
 
+session_start();
+if (!isset($_SESSION['id'])||!isset($_SESSION['rol'])||$_SESSION['rol']!=1) {
+    header("location: index.php");
+    die();
+}
+
 $page = 1;
 $limit = 5;
 $new_columns = ['' => "<button class='btn btn-danger delete'>DELETE</button>"];
@@ -59,7 +65,7 @@ if (!$table) {
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse " id="navbarTogglerDemo01">
-                <a class="navbar-brand" href="index.php"><img src="views/img/favicon.ico" width="20" height="20">AsturEvent</a>
+                <a class="navbar-brand" href="#"><img src="views/img/favicon.ico" width="20" height="20">AsturEvent</a>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link user" aria-current="page" href="#">Usuarios</a>

@@ -54,13 +54,13 @@ if (!$table) {
 }
 
 if ($rol == "user_r") {
-    $btn = '<div class="btn-group dropstart d-flex">
+    $btn = '<div class="btn-group" style="width:15%">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
       Perfil
     </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenuButton1">
       <li><a class="dropdown-item" href="#">Favoritos</a></li>
-      <li><a class="dropdown-item" href="close.php">Cerrar Seción</a></li>
+      <li><a class="dropdown-item" href="close.php">Cerrar Sesión</a></li>
     </ul>
   </div>';
 } else {

@@ -128,7 +128,7 @@ switch ($action) {
 
         $db = new Db();
         $db->setTable($_POST['nameTable']);
-        $query = $db->getQuery('INSERT', ["name" => "{$_POST['name']}", "password" => "{$_POST['password']}", "rol" => 0, "mail" => "{$_POST['mail']}", "age" => $_POST['age'], "favs" => ""]);
+        $query = $db->getQuery('INSERT', ["name" => "{$_POST['name']}", "password" => "{$_POST['password']}", "rol" => 0, "mail" => "{$_POST['mail']}", "age" => $_POST['age']]);
         $result = $db->executeS($query);
         if (!$result) {
             $result = $db->getLastError();

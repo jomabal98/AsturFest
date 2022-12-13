@@ -46,16 +46,21 @@
                     <span class="fas fa-key"></span>
                     <input type="password" name="password" id="pwd" placeholder="Password">
                 </div>
-                <button class="btn btn-primary mt-3">Login</button>
+                <div class="form-field d-flex align-items-center">
+                    <span class="fas fa-envelope"></span>
+                    <input type="text" name="mail" id="mail" placeholder="Mail">
+                </div>
+                <div class="form-field d-flex align-items-center">
+                    <span class="fas fa-birthday-cake"></span>
+                    <input type="number" name="age" id="age" placeholder="Age" min=0>
+                </div>
+                <button class="btn btn-primary mt-3">Registrarse</button>
             </form>
-            <div class="text-center fs-6">
-                <p>No tienes cuenta aún, <a href="register.php">Sign up</a></p>
-            </div>
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-    <script src="views/js/scriptLogin.js"></script>
+    <script src="views/js/scriptRegister.js"></script>
 </body>
 
 </html>
