@@ -32,15 +32,12 @@ function updateTable(orderBy = 'id', orderWay = 'ASC') {
     selectFavs();
     let selected = $('.form-select').val();
     let page = $('.active').text();
-    console.log(where);
     if (where.length == 0) {
-        console.log("hola");
         return;
     }
 
     let params = { 'numSelector': selected, 'page': page, 'orderBy': orderBy, 'orderWay': orderWay, 'new_columns': new_col, 'date1': date1, 'date2': date2, 'nameTable': nameTable, 'fieldsTranslated': fieldsTranslated, 'rol': rol, 'where': where };
     callAjax('POST', 'updateTable', params, false, function (data) {
-        console.log("hola");
         if (data['error']) {
             return alert(data['error']);
         }
@@ -150,6 +147,7 @@ function selectFavs() {
     callAjax('POST', 'selectFavs', { "": "" }, false, function (data) {
         if (data['result']) {
             where = data['result'];
+            return;
         }
 
         $('table').hide();
