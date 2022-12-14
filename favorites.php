@@ -2,16 +2,12 @@
 require_once __DIR__ . '/src/PaginationTable.php';
 require_once __DIR__ . '/src/Db.php';
 
-$rol = "user_nr";
 session_start();
-if (isset($_SESSION['id'])) {
-    if ($_SESSION['rol'] == 1) {
-        header("Location:close.php");
-    }
-    $rol = "user_r";
+if (!isset($_SESSION['id'])) {
+    header("Location:login.php");
 }
 
-
+$rol = "user_r";
 $page = 1;
 $limit = 5;
 $new_columns = ["favs" => ''];
@@ -45,25 +41,31 @@ $fieldsTranslated = [
         'type' => 'text'
     ]
 ];
-$paginationTable = new PaginationTable(new Db(), $rol, $nameTable, $page, $limit, $new_columns, $fieldsTranslated);
-$table = $paginationTable->get();
-if (!$table) {
-    die($paginationTable->getLastError());
+
+$db = new Db();
+$db->setTable("favorites");
+$query = $db->getQuery('SELECT', ["col" => "*", "where" => "idUser = {$_SESSION['id']}"]);
+$result = $db->executeS($query);
+if (!$result) {
+    echo $db->getLastError();
 }
 
-if ($rol == "user_r") {
-    $btn = '<div class="btn-group" style="width:15%">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-      Perfil
-    </button>
-    <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenuButton1">
-      <li><a class="dropdown-item" href="favorites.php">Favoritos</a></li>
-      <li><a class="dropdown-item" href="close.php">Cerrar Sesión</a></li>
-    </ul>
-  </div>';
+if ($result->rowCount() == 0) {
+    $result = "<div class='container'><br><p class='hide'>No tienes favoritos agregados</p><br><a href='./index.php'><button class='hide btn btn-outline-primary'>Volver a eventos</button></a></div>";
 } else {
-    $btn = '<form class="d-flex" action="login.php">
-    <button class=" btn btn-outline-primary">Iniciar Sesion</button></form>';
+    $where = "";
+    $data = $result->fetchAll(PDO::FETCH_CLASS, "User");
+    foreach ($data as $event => $user) {
+        $where .= "id = " . $user->idEvent . " OR ";
+    }
+    
+    $where=substr($where,0,-4);
+    $paginationTable = new PaginationTable(new Db(), $rol, $nameTable, $page, $limit, $new_columns, $fieldsTranslated, "id", "ASC", $where);
+    $result = $paginationTable->get();
+    if (!$result) {
+        die($paginationTable->getLastError());
+    }
+
 }
 
 ?>
@@ -88,16 +90,24 @@ if ($rol == "user_r") {
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse " id="navbarTogglerDemo01">
-                <a class="navbar-brand" href="#"><img src="views/img/favicon.ico" width="20" height="20">AsturEvent</a>
+                <a class="navbar-brand" href="index.php"><img src="views/img/favicon.ico" width="20" height="20">AsturEvent</a>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 </ul>
-                <?php echo $btn; ?>
+                <div class="btn-group" style="width:15%">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        Perfil
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="#">Favoritos</a></li>
+                        <li><a class="dropdown-item" href="close.php">Cerrar Sesión</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>
 
     <?php
-    echo $table;
+    echo $result;
     ?>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
@@ -107,7 +117,7 @@ if ($rol == "user_r") {
         var fieldsTranslated = <?= json_encode($fieldsTranslated) ?>;
         var rol = <?= json_encode($rol) ?>;
     </script>
-    <script src="views/js/script.js"></script>
+    <script src="views/js/scriptFavorites.js"></script>
 </body>
 
 </html>

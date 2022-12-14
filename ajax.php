@@ -30,7 +30,14 @@ switch ($action) {
     case 'updateTable':
         $where = "";
         if (isset($_POST['date1']) && !empty($_POST['date1']) && isset($_POST['date2']) && !empty($_POST['date2'])) {
-            $where = " date_init BETWEEN {$_POST['date1']} AND {$_POST['date2']} OR date_end BETWEEN {$_POST['date1']} AND {$_POST['date2']} OR {$_POST['date1']} BETWEEN date_init AND date_end";
+            $where = " (date_init BETWEEN {$_POST['date1']} AND {$_POST['date2']} OR date_end BETWEEN {$_POST['date1']} AND {$_POST['date2']} OR {$_POST['date1']} BETWEEN date_init AND date_end)";
+        }
+
+        if(isset($_POST['where'])&& !empty($_POST['where'])){
+            if($where!=""){
+                $where=$where." AND ";
+            }
+            $where.="(".$_POST['where'].")";
         }
 
         if (!isset($_POST['page']) || $_POST['page'] < 1) {
@@ -162,7 +169,6 @@ switch ($action) {
         }
 
         if (!isset($_POST['date_init']) || empty($_POST['date_init'])) {
-            var_dump("hola");
             echo json_encode(['error' => "date_init incorrect"]);
         }
 
@@ -214,12 +220,11 @@ switch ($action) {
 
         echo json_encode(['result' => $result]);
         break;
-    
+
     case 'favAction':
         if (!isset($_POST['idEvent']) || empty($_POST['idEvent'])) {
             echo json_encode(['error' => "idEvent incorrect"]);
         }
-        var_dump($_POST['idEvent']);
         $db = new Db();
         $db->setTable("favorites");
         $query = $db->getQuery('SELECT', ["col" => "*", "where" => "idUser='{$_SESSION["id"]}' AND idEvent='{$_POST['idEvent']}'"]);
@@ -227,26 +232,51 @@ switch ($action) {
         if (!$result) {
             $result = $db->getLastError();
         } else {
-            if($result->rowCount()==0){
+            if ($result->rowCount() == 0) {
                 $query = $db->getQuery('INSERT', ["idUser" => "{$_SESSION["id"]}", "idEvent" => "{$_POST['idEvent']}"]);
                 $result = $db->executeS($query);
                 if (!$result) {
                     $result = $db->getLastError();
                 } else {
                     $result = true;
+                    $acction = "insert";
                 }
-            }else{
+            } else {
                 $query = $db->getQuery('DELETE', ["value" => "idUser = {$_SESSION["id"]} AND idEvent = {$_POST['idEvent']}"]);
                 $result = $db->executeS($query);
                 if (!$result) {
                     $result = $db->getLastError();
                 } else {
                     $result = true;
+                    $acction = "delete";
                 }
             }
         }
 
-        echo json_encode(['result' => $result]);
+        echo json_encode(['result' => $result, 'acction' => $acction]);
+        break;
+
+    case 'selectFavs':
+        $db = new Db();
+        $db->setTable("favorites");
+        $query = $db->getQuery('SELECT', ["col" => "*", "where" => "idUser = {$_SESSION['id']}"]);
+        $result = $db->executeS($query);
+        if (!$result) {
+            echo json_encode(['result' => $result]);
+            die();
+        }
+
+        $where = "";
+        if ($result->rowCount() != 0) {
+            $data = $result->fetchAll(PDO::FETCH_CLASS, "User");
+            foreach ($data as $event => $user) {
+                $where .= "id = " . $user->idEvent . " OR ";
+            }
+
+            $where=substr($where,0,-4);
+        } 
+
+        echo json_encode(['result' => $where]);
         break;
 
     default:
