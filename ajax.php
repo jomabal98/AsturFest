@@ -33,11 +33,11 @@ switch ($action) {
             $where = " (date_init BETWEEN {$_POST['date1']} AND {$_POST['date2']} OR date_end BETWEEN {$_POST['date1']} AND {$_POST['date2']} OR {$_POST['date1']} BETWEEN date_init AND date_end)";
         }
 
-        if(isset($_POST['where'])&& !empty($_POST['where'])){
-            if($where!=""){
-                $where=$where." AND ";
+        if (isset($_POST['where']) && !empty($_POST['where'])) {
+            if ($where != "") {
+                $where = $where . " AND ";
             }
-            $where.="(".$_POST['where'].")";
+            $where .= "(" . $_POST['where'] . ")";
         }
 
         if (!isset($_POST['page']) || $_POST['page'] < 1) {
@@ -189,6 +189,88 @@ switch ($action) {
         echo json_encode(['result' => $result]);
         break;
 
+    case 'editUser':
+        if (!isset($_POST['nameTable']) || empty($_POST['nameTable'])) {
+            echo json_encode(['error' => "nameTable incorrect"]);
+        }
+
+        if (!isset($_POST['mail']) || empty($_POST['mail'])) {
+            echo json_encode(['error' => "mail incorrect"]);
+        }
+
+        if (!isset($_POST['name']) || empty($_POST['name'])) {
+            echo json_encode(['error' => "name incorrect"]);
+        }
+
+        if (!isset($_POST['password']) || empty($_POST['password'])) {
+            echo json_encode(['error' => "password incorrect"]);
+        }
+
+        if (!isset($_POST['age']) || $_POST['age'] < 1) {
+            echo json_encode(['error' => "age incorrect"]);
+        }
+
+        if (!isset($_POST['id']) || $_POST['id'] < 1) {
+            echo json_encode(['error' => "id incorrect"]);
+        }
+
+        $db = new Db();
+        $db->setTable($_POST['nameTable']);
+        $query = $db->getQuery('UPDATE', ['set' => ['mail' => $_POST['mail'], 'name' => $_POST['name'], 'password' => $_POST['password'], 'age' => $_POST['age']], 'where' => ['id' => $_POST['id']]]);
+        $result = $db->executeS($query);
+        if (!$result) {
+            $result = $db->getLastError();
+        } else {
+            $result = true;
+        }
+
+        echo json_encode(['result' => $result]);
+        break;
+    case 'editEvent':
+        if (!isset($_POST['nameTable']) || empty($_POST['nameTable'])) {
+            echo json_encode(['error' => "nameTable incorrect"]);
+        }
+
+        if (!isset($_POST['place']) || empty($_POST['place'])) {
+            echo json_encode(['error' => "place incorrect"]);
+        }
+
+        if (!isset($_POST['name']) || empty($_POST['name'])) {
+            echo json_encode(['error' => "name incorrect"]);
+        }
+
+        if (!isset($_POST['photo']) || empty($_POST['photo'])) {
+            echo json_encode(['error' => "photo incorrect"]);
+        }
+
+        if (!isset($_POST['type']) || empty($_POST['type'])) {
+            echo json_encode(['error' => "type incorrect"]);
+        }
+
+        if (!isset($_POST['date_init']) || empty($_POST['date_init'])) {
+            echo json_encode(['error' => "date_init incorrect"]);
+        }
+
+        if (!isset($_POST['date_end']) || empty($_POST['date_end'])) {
+            echo json_encode(['error' => "date_end incorrect"]);
+        }
+
+        if (!isset($_POST['id']) || $_POST['id'] < 1) {
+            echo json_encode(['error' => "id incorrect"]);
+        }
+
+        $db = new Db();
+        $db->setTable($_POST['nameTable']);
+        $query = $db->getQuery('UPDATE', ['set' => ['place' => $_POST['place'], 'name' => $_POST['name'], 'photo' => $_POST['photo'], 'type' => $_POST['type'], 'date_init' => $_POST['date_init'], 'date_end' => $_POST['date_end']], 'where' => ['id' => $_POST['id']]]);
+        $result = $db->executeS($query);
+        if (!$result) {
+            $result = $db->getLastError();
+        } else {
+            $result = true;
+        }
+
+        echo json_encode(['result' => $result]);
+        break;
     case 'log':
         if (!isset($_POST['name']) || empty($_POST['name'])) {
             echo json_encode(['error' => "name incorrect"]);
@@ -273,8 +355,8 @@ switch ($action) {
                 $where .= "id = " . $user->idEvent . " OR ";
             }
 
-            $where=substr($where,0,-4);
-        } 
+            $where = substr($where, 0, -4);
+        }
 
         echo json_encode(['result' => $where]);
         break;

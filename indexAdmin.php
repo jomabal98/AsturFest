@@ -3,7 +3,7 @@ require_once __DIR__ . '/src/PaginationTable.php';
 require_once __DIR__ . '/src/Db.php';
 
 session_start();
-if (!isset($_SESSION['id'])||!isset($_SESSION['rol'])||$_SESSION['rol']!=1) {
+if (!isset($_SESSION['id']) || !isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
     header("location: index.php");
     die();
 }
@@ -86,6 +86,33 @@ if (!$table) {
     echo $table;
     ?>
 
+    <!-- <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar registro</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3"><label for="Rol" class="col-form-label">Rol:</label><select type="select" class="form-control Rol">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                        </select>
+                        </div>
+                        <div class="mb-3"><label for="Name" class="col-form-label">Nombre:</label><input type="text" class="form-control Name">
+                        </div>
+                        <div class="mb-3"><label for="Password" class="col-form-label">Contraseña:</label><input type="password" class="form-control Password">
+                        </div>
+                        <div class="mb-3"><label for="eMail" class="col-form-label">Mail:</label><input type="text" class="form-control eMail">
+                        </div>
+                        <div class="mb-3"><label for="Age" class="col-form-label">Edad:</label><input type="number" class="form-control Age">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div> -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script>
         var new_col = <?= json_encode($new_columns) ?>;

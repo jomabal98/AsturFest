@@ -4,6 +4,7 @@ let id;
 let date1 = "";
 let date2 = "";
 let rol = "admin";
+
 user = {
     'id': {
         'translator': 'Identificador'
@@ -100,7 +101,7 @@ function updateTable(orderBy = 'id', orderWay = 'ASC') {
         $('.nav_pagination').remove();
         $('table').after(data['pages']);
         if (nameTable == "user") {
-            $('.input-search').remove();
+            $('.searched').remove();
         }
 
     });
@@ -253,7 +254,7 @@ function changeTable(table) {
         $('.container').remove();
         $('nav').after(data['table']);
         if (nameTable == "user") {
-            $('.input-search').remove();
+            $('.searched').remove();
         }
     });
 
@@ -272,9 +273,9 @@ $(document).on("click", ".send", function () {
     error = false;
     let params;
     if (nameTable == "user") {
-        validateEmail($('.Mail').val())
-        validatePass($('.Contraseña').val());
-        if ($('.Edad').val() < 1 && $('.Nombre').val().length <= 0) {
+        validateEmail($('.Mail-exampleModal').val())
+        validatePass($('.Contraseña-exampleModal').val());
+        if ($('.Edad').val() < 1 && $('.Nombre-exampleModal').val().length <= 0) {
             error = true;
         }
 
@@ -283,21 +284,21 @@ $(document).on("click", ".send", function () {
             return;
         }
 
-        params = { 'name': $('.Nombre').val(), 'age': $('.Edad').val(), 'mail': $('.Mail').val(), 'nameTable': nameTable, 'password': $('.Contraseña').val() };
+        params = { 'name': $('.Nombre-exampleModal').val(), 'age': $('.Edad-exampleModal').val(), 'mail': $('.Mail-exampleModal').val(), 'nameTable': nameTable, 'password': $('.Contraseña-exampleModal').val() };
     } else {
         let dateInit = $('.Fecha_de_inicio').val().replaceAll("-", "");
         let dateEnd = $('.Fecha_de_finalizacion').val().replaceAll("-", "");
-        if ($('.Nombre').val().length <= 0 || $('.Lugar').val().length <= 0 || $('.Tipo').val().length <= 0 || $('.Imagen').val().length <= 0) {
+        if ($('.Nombre-exampleModal').val().length <= 0 || $('.Lugar-exampleModal').val().length <= 0 || $('.Tipo-exampleModal').val().length <= 0 || $('.Imagen-exampleModal').val().length <= 0) {
             error = true;
         }
 
-        validateFileType();
+        validateFileType($('.Imagen-exampleModal').val());
         if (error) {
             alert("datos mal introducidos");
             return;
         }
 
-        params = { 'name': $('.Nombre').val(), 'photo': $('.Imagen').val(), 'place': $('.Lugar').val(), 'type': $('.Tipo').val(), 'nameTable': nameTable, 'date_init': dateInit, 'date_end': dateEnd };
+        params = { 'name': $('.Nombre-exampleModal').val(), 'photo': $('.Imagen-exampleModal').val(), 'place': $('.Lugar-exampleModal').val(), 'type': $('.Tipo-exampleModal').val(), 'nameTable': nameTable, 'date_init': dateInit, 'date_end': dateEnd };
     }
 
     let post = "";
@@ -335,11 +336,11 @@ function validatePass(value) {
 }
 
 if (nameTable == "user") {
-    $('.input-search').remove();
+    $('.searched').remove();
 }
 
-function validateFileType() {
-    var fileName = $(".Imagen").val();
+function validateFileType($value) {
+    var fileName = $value;
     var idxDot = fileName.lastIndexOf(".") + 1;
     var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
     if (extFile != "jpg" && extFile != "jpeg" && extFile != "png") {
@@ -347,3 +348,77 @@ function validateFileType() {
     }
 
 }
+
+$(document).on("click", ".name", function () {
+    id = $(this).siblings(":first").text();
+    let name = $(this).text()
+    $('.Nombre-exampleModal2').val(name);
+    if (nameTable == "user") {
+        let pass = $(this).siblings(":nth-child(4)").text();
+        let mail = $(this).siblings(":nth-child(5)").text();
+        let age = $(this).siblings(":nth-child(6)").text();
+        $('.Contraseña-exampleModal2').val(pass);
+        $('.Edad-exampleModal2').val(age);
+        $('.Mail-exampleModal2').val(mail);
+    } else {
+        let fecha1 = $(this).siblings(":nth-child(3)").text();
+        let fecha2 = $(this).siblings(":nth-child(4)").text();
+        let lugar = $(this).siblings(":nth-child(5)").text();
+        let tipo = $(this).siblings(":nth-child(6)").text();
+        let imagen = $(this).siblings(":nth-child(7)").html().split('"');
+        imagen = imagen[1];
+        $('.Fecha_de_inicio-exampleModal2').val(fecha1);
+        $('.Fecha_de_finalizacion-exampleModal2').val(fecha2);
+        $('.Lugar-exampleModal2').val(lugar);
+        $('.Tipo-exampleModal2').val(tipo);
+        $('.Imagen-exampleModal2').val(imagen);
+    }
+    $('#exampleModal2').modal('show');
+})
+
+$(document).on("click", ".edit", function () {
+    error = false;
+    let params;
+    let post = "";
+    if (nameTable == "user") {
+        validateEmail($('.Mail-exampleModal2').val())
+        validatePass($('.Contraseña-exampleModal2').val());
+        if ($('.Edad-exampleModal2').val() < 1 && $('.Nombre-exampleModal2').val().length <= 0) {
+            error = true;
+        }
+
+        if (error) {
+            alert("datos mal introducidos");
+            return;
+        }
+
+        params = { 'name': $('.Nombre-exampleModal2').val(), 'age': $('.Edad-exampleModal2').val(), 'mail': $('.Mail-exampleModal2').val(), 'nameTable': nameTable, 'password': $('.Contraseña-exampleModal2').val(), 'id': id };
+        post = "editUser";
+    } else {
+        let dateInit = $('.Fecha_de_inicio-exampleModal2').val().replaceAll("-", "");
+        let dateEnd = $('.Fecha_de_finalizacion-exampleModal2').val().replaceAll("-", "");
+        if ($('.Nombre-exampleModal2').val().length <= 0 || $('.Lugar-exampleModal2').val().length <= 0 || $('.Tipo-exampleModal2').val().length <= 0 || $('.Imagen-exampleModal2').val().length <= 0) {
+            error = true;
+        }
+
+        validateFileType($('.Imagen-exampleModal2').val());
+        if (error) {
+            alert("datos mal introducidos");
+            return;
+        }
+
+        params = { 'name': $('.Nombre-exampleModal2').val(), 'photo': $('.Imagen-exampleModal2').val(), 'place': $('.Lugar-exampleModal2').val(), 'type': $('.Tipo-exampleModal2').val(), 'nameTable': nameTable, 'date_init': dateInit, 'date_end': dateEnd, 'id': id };
+        post = "editEvent";
+    }
+
+    callAjax('POST', post, params, function (data) {
+        if (data['error']) {
+            return alert(data['error']);
+        }
+        $('.ins').remove();
+        $('.insert-button').after("<p class='ins'><b>Insertado correctamente</b></p>");
+        $('#exampleModal2').modal('hide');
+        updateTable();
+        $('input').val("");
+    })
+})

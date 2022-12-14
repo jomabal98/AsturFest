@@ -80,6 +80,7 @@ class PaginationTable
         $table = new Table($dataTable, $this->rol, $this->selectors, $pages, $this->new_columns, $this->fieldsTranslated);
         $resul = $this->getModal($this->rol);
         $resul .= $table->getTable();
+        $resul .= $this->getModal($this->rol,"exampleModal2");
         return $resul;
     }
 
@@ -143,34 +144,40 @@ class PaginationTable
         return $this->lastError;
     }
 
-    public function getModal($rol)
+    public function getModal($rol,$value="exampleModal")
     {
         if ($rol != "admin") {
             return;
         }
+        $insert="";
+        if ($value=="exampleModal") {
+            $insert = "<div class='container '><button type='button' class='insert-button btn btn-primary' data-bs-toggle='modal' data-bs-target='#{$value}' data-bs-whatever='@mdo'>INSERT</button></div>";
+            $value2="send";
+        }else{
+            $value2="edit";
+        }
 
-        $insert = '<div class="container "><button type="button" class="insert-button btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">INSERT</button></div>';
-        $insert .= '<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Nuevo registro</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        $insert .= "<div class='modal fade' id='{$value}' tabindex='-1' aria-labelledby='{$value}Label' aria-hidden='true'>
+        <div class='modal-dialog'>
+          <div class='modal-content'>
+            <div class='modal-header'>
+              <h5 class='modal-title' id='{$value}Label'>Nuevo registro</h5>
+              <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
             </div>
-            <div class="modal-body">
-              <form>';
+            <div class='modal-body'>
+              <form>";
         foreach ($this->fieldsTranslated as $field) {
             if (!isset($field['type'])) {
                 continue;
             }
             $insert .= "<div class='mb-3'><label for='{$field['translator']}' class='col-form-label'>{$field['translator']}:</label>";
-            $insert .= "<input type='{$field['type']}' class='form-control {$field['translator']}'></div>";
+            $insert .= "<input type='{$field['type']}' class='form-control {$field['translator']}-{$value}'></div>";
         }
-        $insert .= '</form>
+        $insert .= "</form>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn btn-primary send">Insertar</button></div></div></div></div></div>';
+        <div class='modal-footer'>
+          <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Cerrar</button>
+          <button type='button' class='btn btn-primary {$value2}'>Insertar</button></div></div></div></div></div>";
         return $insert;
     }
 }
