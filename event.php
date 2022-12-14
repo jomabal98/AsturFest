@@ -40,7 +40,7 @@ if($rol=="user_r"){
       Perfil
     </button>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-      <li><a class="dropdown-item" href="#">Favoritos</a></li>
+      <li><a class="dropdown-item" href="../favorites.php">Favoritos</a></li>
       <li><a class="dropdown-item" href="../close.php">Cerrar Seción</a></li>
     </ul>
   </div>';
