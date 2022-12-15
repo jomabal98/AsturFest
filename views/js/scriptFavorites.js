@@ -55,6 +55,7 @@ function updateTable(orderBy = 'id', orderWay = 'ASC') {
     selectFavs();
     let selected = $('.form-select').val();
     let page = $('.active').text();
+    console.log(where);
     if (where.length == 0) {
         return;
     }
@@ -184,6 +185,8 @@ $(document).on("change", "#date2", function () {
 $(document).on("click", ".hide", function () {
     $('#date1').val("");
     $('#date2').val("");
+    date1 = "";
+    date2 = "";
     $('.hide').remove();
     $('table').show();
     $('.nav_pagination').show();
@@ -215,6 +218,7 @@ function selectFavs() {
         let p = "<p class='hide'>No tienes favoritos agregados</p>";
         $('.search').after(button);
         $('.search').after(p);
+        where="";
 
     });
 }
