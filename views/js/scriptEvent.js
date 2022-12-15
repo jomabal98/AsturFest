@@ -1,8 +1,12 @@
+/**
+ * onclick to add or delete event of favorites
+ */
+
 $(document).on("click", "svg", function () {
     if (rol == "user_r") {
         callAjax('POST', 'favAction', { 'idEvent': idEvent }, function (data) {
             if (data['result']) {
-                if(data['acction']=="delete"){
+                if (data['acction'] == "delete") {
                     $('svg').html("<path d='m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z'/>");
                     return;
                 }
@@ -14,6 +18,17 @@ $(document).on("click", "svg", function () {
         alert("No estas registrado");
     }
 })
+
+/**
+ * this function make ajax calls
+ * 
+ * @param string type 
+ * @param string action 
+ * @param string params 
+ * @param function success 
+ * @param string dataType 
+ * @param string urlAjax 
+ */
 
 function callAjax(type = 'POST', action = 'updateTable', params, success, dataType = 'json', urlAjax = '../ajax.php') {
     $.ajax({

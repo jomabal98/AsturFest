@@ -61,10 +61,8 @@ class PaginationTable
 
         // Get total pages
         $pages = $this->getTotalPages();
-
         // Get data table
         $dataTable = $data->fetchAll(PDO::FETCH_CLASS, "User");
-
         if ($ajax) {
             if ($this->page > $pages) {
                 $this->page = $pages;
@@ -80,7 +78,7 @@ class PaginationTable
         $table = new Table($dataTable, $this->rol, $this->selectors, $pages, $this->new_columns, $this->fieldsTranslated);
         $resul = $this->getModal($this->rol);
         $resul .= $table->getTable();
-        $resul .= $this->getModal($this->rol,"exampleModal2");
+        $resul .= $this->getModal($this->rol, "exampleModal2");
         return $resul;
     }
 
@@ -144,24 +142,35 @@ class PaginationTable
         return $this->lastError;
     }
 
-    public function getModal($rol,$value="exampleModal")
+    /**
+     * Get modal window
+     * 
+     * @param string rol 
+     * @param string value
+     * 
+     * @return string
+     */
+    public function getModal($rol, $value = "exampleModal")
     {
         if ($rol != "admin") {
-            return;
+            return "";
         }
-        $insert="";
-        if ($value=="exampleModal") {
+
+        $insert = "";
+        if ($value == "exampleModal") {
             $insert = "<div class='container '><button type='button' class='insert-button btn btn-primary' data-bs-toggle='modal' data-bs-target='#{$value}' data-bs-whatever='@mdo'>INSERT</button></div>";
-            $value2="send";
-        }else{
-            $value2="edit";
+            $value2 = "send";
+            $value3 = "Nuevo";
+        } else {
+            $value2 = "edit";
+            $value3 = "Editar";
         }
 
         $insert .= "<div class='modal fade' id='{$value}' tabindex='-1' aria-labelledby='{$value}Label' aria-hidden='true'>
         <div class='modal-dialog'>
           <div class='modal-content'>
             <div class='modal-header'>
-              <h5 class='modal-title' id='{$value}Label'>Nuevo registro</h5>
+              <h5 class='modal-title' id='{$value}Label'>{$value3} registro</h5>
               <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
             </div>
             <div class='modal-body'>

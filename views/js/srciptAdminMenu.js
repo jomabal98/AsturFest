@@ -200,6 +200,10 @@ function callAjax(type = 'POST', action = 'updateTable', params, success, dataTy
     });
 }
 
+/**
+ * onclick to seach data between dates
+ */
+
 $(document).on("click", ".search", function () {
     $('.hide').remove();
     if ($('#date1').val() == null || $('#date1').val() == "" || $('#date2').val() == null || $('#date2').val() == "" || $('#date2').val() < $('#date1').val()) {
@@ -212,29 +216,59 @@ $(document).on("click", ".search", function () {
 
 })
 
+/**
+ * onchange date to set min on other date 
+ */
+
 $(document).on("change", "#date1", function () {
     $('#date2').attr('min', $(this).val());
 })
+
+/**
+ * onchange date to set max on other date 
+ */
 
 $(document).on("change", "#date2", function () {
     $('#date1').attr('max', $(this).val());
 })
 
+/**
+ * onchange date to set min on other date 
+ */
+
 $(document).on("change", ".Fecha_de_inicio", function () {
     $('.Fecha_de_finalizacion').attr('min', $(this).val());
 })
+
+/**
+ * onchange date to set max on other date 
+ */
 
 $(document).on("change", ".Fecha_de_finalizacion", function () {
     $('.Fecha_de_inicio').attr('max', $(this).val());
 })
 
+/**
+ * onclick to change to event table
+ */
+
 $(document).on("click", ".event", function () {
     changeTable("event");
 })
 
+/**
+ * onclick to change to user table
+ */
+
 $(document).on("click", ".user", function () {
     changeTable("user");
 })
+
+/**
+ * set new name table and change it
+ * 
+ * @param string table 
+ */
 
 function changeTable(table) {
     if (table == "event") {
@@ -260,15 +294,26 @@ function changeTable(table) {
 
 }
 
+/**
+ * onclick to reset table
+ */
+
 $(document).on("click", ".hide", function () {
     $('#date1').val("");
     $('#date2').val("");
+    date1 = "";
+    date2 = "";
     $('.hide').remove();
     $('table').show();
     $('.nav_pagination').show();
 })
 
 let error = false;
+
+/**
+ * onclick insert new event or user
+ */
+
 $(document).on("click", ".send", function () {
     error = false;
     let params;
@@ -321,12 +366,23 @@ $(document).on("click", ".send", function () {
 
 })
 
+/**
+ * validate email
+ * 
+ * @param string value 
+ */
 function validateEmail(value) {
     if (!(/^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/.test(value))) {
         error = true;
     }
 
 }
+
+/**
+ * validate password
+ * 
+ * @param string value 
+ */
 
 function validatePass(value) {
     if (!(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{4,15}$/.test(value))) {
@@ -339,6 +395,12 @@ if (nameTable == "user") {
     $('.searched').remove();
 }
 
+/**
+ * validate file type
+ * 
+ * @param string value 
+ */
+
 function validateFileType($value) {
     var fileName = $value;
     var idxDot = fileName.lastIndexOf(".") + 1;
@@ -348,6 +410,10 @@ function validateFileType($value) {
     }
 
 }
+
+/**
+ * onclick open modal and autocomplete form
+ */
 
 $(document).on("click", ".name", function () {
     id = $(this).siblings(":first").text();
@@ -375,6 +441,10 @@ $(document).on("click", ".name", function () {
     }
     $('#exampleModal2').modal('show');
 })
+
+/**
+ * onclick to edit a user or event
+ */
 
 $(document).on("click", ".edit", function () {
     error = false;

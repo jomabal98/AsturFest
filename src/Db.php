@@ -103,7 +103,6 @@ class Db
         }
 
         try {
-            // var_dump($query);
             $result = $connexion->query($query);
             return $result;
         } catch (PDOException $e) {
@@ -140,14 +139,15 @@ class Db
                 foreach ($paramsKey as $field) {
                     $query .= $field . ",";
                 }
-                $query = substr($query, 0, -1) . ") VALUES (";
 
+                $query = substr($query, 0, -1) . ") VALUES (";
                 foreach ($params as $value) {
                     if (intval($value)) {
                         $query .= $value . ",";
                     } else {
                         $query .= "'" . $value . "',";
                     }
+
                 }
 
                 $query = substr($query, 0, -1) . ');';
@@ -168,6 +168,7 @@ class Db
                     if (isset($params['orderWay']) && ($params['orderWay'] == 'ASC' || $params['orderWay'] == 'DESC')) {
                         $query .= " {$params['orderWay']}";
                     }
+
                 }
 
                 if (isset($params['page']) && $params['page'] > 0 && isset($params['limit']) && $params['limit'] > 0) {
@@ -217,6 +218,7 @@ class Db
                     if (empty(trim($key)) || empty(trim($value))) {
                         return false;
                     }
+
                     $query .= $key . ' ' . $value . ",";
                 }
 
@@ -235,6 +237,7 @@ class Db
             default:
                 return false;
                 break;
+
         }
 
         return $query;
@@ -304,4 +307,5 @@ class Db
 
         return false;
     }
+    
 }

@@ -4,6 +4,10 @@ let orderWay;
 let date1 = "";
 let date2 = "";
 
+/**
+ * onclick to delete from favorites
+ */
+
 $(document).on("click", ".bi-heart", function () {
     let idEvent = $(this).parent().siblings(":first").html();
     callAjax('POST', 'favAction', { 'idEvent': idEvent }, false, function (data) {
@@ -17,6 +21,18 @@ $(document).on("click", ".bi-heart", function () {
 
 })
 
+/**
+ * this function make ajax calls
+ * 
+ * @param string type 
+ * @param string action 
+ * @param string params 
+ * @param bool bool
+ * @param function success 
+ * @param string dataType 
+ * @param string urlAjax 
+ */
+
 function callAjax(type = 'POST', action = 'updateTable', params, bool = true, success, dataType = 'json', urlAjax = './ajax.php') {
     $.ajax({
         type,
@@ -27,6 +43,13 @@ function callAjax(type = 'POST', action = 'updateTable', params, bool = true, su
         success
     });
 }
+
+/**
+ * refresh or hide table 
+ * 
+ * @param string orderBy
+ * @param string orderWay
+ */
 
 function updateTable(orderBy = 'id', orderWay = 'ASC') {
     selectFavs();
@@ -64,6 +87,10 @@ function updateTable(orderBy = 'id', orderWay = 'ASC') {
 
 }
 
+/**
+ * onclick to change page
+ */
+
 $(document).on("click", ".page-item", function () {
     if ($(this).hasClass("active")) {
         return;
@@ -73,6 +100,10 @@ $(document).on("click", ".page-item", function () {
     $($(this)).addClass("active");
     updateTable(orderBy, orderWay);
 })
+
+/**
+ * onclick to sort by th
+ */
 
 $(document).on("click", "th", function () {
     th = $(this).html();
@@ -106,9 +137,17 @@ $(document).on("click", "th", function () {
     updateTable(orderBy, orderWay);
 })
 
+/**
+ * change table from event user and vice versa
+ */
+
 $(document).on('change', '.form-select', function () {
     updateTable(orderBy, orderWay);
 });
+
+/**
+ * search data between dates
+ */
 
 $(document).on("click", ".search", function () {
     $('.hide').remove();
@@ -122,13 +161,25 @@ $(document).on("click", ".search", function () {
 
 })
 
+/**
+ * onchange date to set min on other date 
+ */
+
 $(document).on("change", "#date1", function () {
     $('#date2').attr('min', $(this).val());
 })
 
+/**
+ * onchange date to set max on other date 
+ */
+
 $(document).on("change", "#date2", function () {
     $('#date1').attr('max', $(this).val());
 })
+
+/**
+ * onclick to reset the search
+ */
 
 $(document).on("click", ".hide", function () {
     $('#date1').val("");
@@ -138,10 +189,18 @@ $(document).on("click", ".hide", function () {
     $('.nav_pagination').show();
 })
 
+/**
+ * onclick to redirct to event.php 
+ */
+
 $(document).on("click", ".name", function () {
     let id = $(this).siblings(":first").text()
     location.href = `event.php/?id=${id}`;
 })
+
+/**
+ * seach if user has favs and create a sentence where or hide table
+ */
 
 function selectFavs() {
     callAjax('POST', 'selectFavs', { "": "" }, false, function (data) {

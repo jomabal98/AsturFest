@@ -58,14 +58,13 @@ if ($result->rowCount() == 0) {
     foreach ($data as $event => $user) {
         $where .= "id = " . $user->idEvent . " OR ";
     }
-    
-    $where=substr($where,0,-4);
+
+    $where = substr($where, 0, -4);
     $paginationTable = new PaginationTable(new Db(), $rol, $nameTable, $page, $limit, $new_columns, $fieldsTranslated, "id", "ASC", $where);
     $result = $paginationTable->get();
     if (!$result) {
         die($paginationTable->getLastError());
     }
-
 }
 
 ?>

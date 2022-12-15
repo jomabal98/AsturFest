@@ -153,6 +153,10 @@ function callAjax(type = 'POST', action = 'updateTable', params, success, dataTy
     });
 }
 
+/**
+ * onclick to seach data between dates
+ */
+
 $(document).on("click", ".search", function () {
     $('.hide').remove();
     if ($('#date1').val() == null || $('#date1').val() == "" || $('#date2').val() == null || $('#date2').val() == "" || $('#date2').val() < $('#date1').val()) {
@@ -165,37 +169,58 @@ $(document).on("click", ".search", function () {
 
 })
 
+/**
+ * onchange date to set min on other date 
+ */
+
 $(document).on("change", "#date1", function () {
     $('#date2').attr('min', $(this).val());
 })
+
+/**
+ * onchange date to set max on other date 
+ */
 
 $(document).on("change", "#date2", function () {
     $('#date1').attr('max', $(this).val());
 })
 
+/**
+ * onclick to reset the search
+ */
+
 $(document).on("click", ".hide", function () {
     $('#date1').val("");
     $('#date2').val("");
+    date1 = "";
+    date2 = "";
     $('.hide').remove();
     $('table').show();
     $('.nav_pagination').show();
 })
+
+/**
+ * onclick to redirct to event.php 
+ */
 
 $(document).on("click", ".name", function () {
     let id = $(this).siblings(":first").text()
     location.href = `event.php/?id=${id}`;
 })
 
+/**
+ * onclick to add to favorite list if you are logged
+ */
 
 $(document).on("click", ".bi-heart", function () {
     if (rol == "user_r") {
         let idEvent = $(this).parent().siblings(":first").text()
-        let params = {'idEvent': idEvent };
+        let params = { 'idEvent': idEvent };
         callAjax('POST', 'favAction', params, function (data) {
             if (data['result']) {
                 updateTable();
             }
-    
+
         });
 
     } else {

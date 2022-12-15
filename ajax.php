@@ -24,6 +24,21 @@ switch ($action) {
             $result = true;
         }
 
+        if ($_GET['nameTable'] == "event") {
+            $field = "idEvent";
+        } else {
+            $field = "idUser";
+        }
+
+        $db->setTable("favorites");
+        $query = $db->getQuery('DELETE', ["value" => "{$field} = {$id}"]);
+        $result = $db->executeS($query);
+        if (!$result) {
+            $result = $db->getLastError();
+        } else {
+            $result = true;
+        }
+
         echo json_encode(['result' => $result]);
         break;
 
@@ -359,6 +374,28 @@ switch ($action) {
         }
 
         echo json_encode(['result' => $where]);
+        break;
+
+    case 'validateName':
+        if (!isset($_POST['name']) || empty($_POST['name'])) {
+            echo json_encode(['error' => "name incorrect"]);
+        }
+
+        $db = new Db();
+        $db->setTable("user");
+        $query = $db->getQuery('SELECT', ["col" => "*", "where" => "name = '{$_POST['name']}'"]);
+        $result = $db->executeS($query);
+        if (!$result) {
+            echo json_encode(['result' => $result]);
+            die();
+        }
+
+        if ($result->rowCount() != 0) {
+            echo json_encode(['result' => true]);
+            die();
+        }
+
+        echo json_encode(['result' => false]);
         break;
 
     default:
