@@ -23,7 +23,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse " id="navbarTogglerDemo01">
-                <a class="navbar-brand" href="index.php"><img src="views/img/favicon.ico" width="20" height="20">AsturEvent</a>
+                <a class="navbar-brand" data-bs-toggle="tooltip" title="Vaya a la página principal" href="index.php"><img src="views/img/favicon.ico" width="20" height="20">AsturEvent</a>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 </ul>
             </div>
@@ -32,7 +32,7 @@
     <div class="container">
         <div class="wrapper">
             <div class="logo">
-                <img src="views/img/favicon.ico" alt="">
+                <a href="index.php" data-bs-toggle="tooltip" title="Página principal"><img src="views/img/favicon.ico" alt=""></a>
             </div>
             <div class="text-center mt-4 name">
                 AsturEvent
@@ -40,22 +40,26 @@
             <form class="p-3 mt-3" method="POST">
                 <div class="form-field d-flex align-items-center">
                     <span class="fas fa-user"></span>
-                    <input type="text" name="userName" id="userName" placeholder="Username">
+                    <input type="text" name="userName" id="userName" placeholder="Username" data-bs-toggle="tooltip" title="Introduzca el nombre de usuario">
                 </div>
                 <div class="form-field d-flex align-items-center">
                     <span class="fas fa-key"></span>
-                    <input type="password" name="password" id="pwd" placeholder="Password">
+                    <input type="password" name="password" id="pwd" placeholder="Password" data-bs-toggle="tooltip" title="Introduzca su contraseña">
                 </div>
                 <button class="btn btn-primary mt-3">Login</button>
             </form>
             <div class="text-center fs-6">
-                <p>No tienes cuenta aún, <a href="register.php">Sign up</a></p>
+                <p>No tienes cuenta aún, <a data-bs-toggle="tooltip" title="Registrse" href="register.php">Sign up</a></p>
             </div>
         </div>
     </div>
-
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="views/js/scriptLogin.js"></script>
 </body>
+<footer class="page-footer font-small blue">
+    <div class="footer-copyright text-center py-3">© 2020 Copyright:
+        <a href="/Asturfest/index.php"> AsturFest</a>
+    </div>
+</footer>
 
 </html>

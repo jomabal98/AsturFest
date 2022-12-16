@@ -118,5 +118,9 @@ if ($result->rowCount() == 0) {
     </script>
     <script src="views/js/scriptFavorites.js"></script>
 </body>
-
+<footer class="page-footer font-small blue">
+    <div class="footer-copyright text-center py-3">© 2020 Copyright:
+        <a href="/Asturfest/index.php"> AsturFest</a>
+    </div>
+</footer>
 </html>

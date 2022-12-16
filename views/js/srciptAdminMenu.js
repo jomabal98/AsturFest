@@ -164,7 +164,7 @@ $(document).on("click", "th", function () {
 
 $(document).on("click", ".delete", function () {
     id = $(this).parent().siblings(":first").text();
-    if (id < 1) {
+    if (id < 1 || (nameTable=="user" && id==1)) {
         return;
     }
 
@@ -417,6 +417,10 @@ function validateFileType($value) {
 
 $(document).on("click", ".name", function () {
     id = $(this).siblings(":first").text();
+    if (nameTable=="user" && id==1) {
+        return;
+    }
+
     let name = $(this).text()
     $('.Nombre-exampleModal2').val(name);
     if (nameTable == "user") {

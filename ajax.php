@@ -133,7 +133,7 @@ switch ($action) {
             echo json_encode(['error' => "nameTable incorrect"]);
         }
 
-        if (!isset($_POST['mail']) || empty($_POST['mail'])) {
+        if (!isset($_POST['mail']) || empty($_POST['mail']) || !filter_var($_POST['mail'],FILTER_VALIDATE_EMAIL)) {
             echo json_encode(['error' => "mail incorrect"]);
         }
 
@@ -146,7 +146,7 @@ switch ($action) {
         }
 
         if (!isset($_POST['age']) || $_POST['age'] < 1) {
-            echo json_encode(['error' => "mail incorrect"]);
+            echo json_encode(['error' => "age incorrect"]);
         }
 
         $db = new Db();
@@ -209,7 +209,7 @@ switch ($action) {
             echo json_encode(['error' => "nameTable incorrect"]);
         }
 
-        if (!isset($_POST['mail']) || empty($_POST['mail'])) {
+        if (!isset($_POST['mail']) || empty($_POST['mail']) || !filter_var($_POST['mail'],FILTER_VALIDATE_EMAIL)) {
             echo json_encode(['error' => "mail incorrect"]);
         }
 

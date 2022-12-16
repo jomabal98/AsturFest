@@ -88,7 +88,7 @@ if ($rol == "user_r") {
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse " id="navbarTogglerDemo01">
-                <a class="navbar-brand" href="#"><img src="views/img/favicon.ico" width="20" height="20">AsturEvent</a>
+                <a class="navbar-brand" data-bs-toggle="tooltip" title="Vaya a la página principal" href="#"><img src="views/img/favicon.ico" width="20" height="20">AsturEvent</a>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 </ul>
                 <?php echo $btn; ?>
@@ -109,5 +109,10 @@ if ($rol == "user_r") {
     </script>
     <script src="views/js/script.js"></script>
 </body>
+<footer class="page-footer font-small blue">
+    <div class="footer-copyright text-center py-3">© 2020 Copyright:
+        <a href="/Asturfest/index.php"> AsturFest</a>
+    </div>
+</footer>
 
 </html>

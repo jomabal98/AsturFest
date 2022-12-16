@@ -26,13 +26,13 @@ if ($rol == "user_r") {
     }
 
     if ($data->rowCount() == 0) {
-        $fav = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+        $fav = '<a data-bs-toggle="tooltip" title="Acceda a favoritos"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
         <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
-      </svg>';
+      </svg></a>';
     } else {
-        $fav = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+        $fav = '<a data-bs-toggle="tooltip" title="Acceda a favoritos"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
         <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-      </svg>';
+      </svg></a>';
     }
 
     $btn = '<div class="btn-group dropstart d-flex">
@@ -40,16 +40,16 @@ if ($rol == "user_r") {
       Perfil
     </button>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-      <li><a class="dropdown-item" href="../favorites.php">Favoritos</a></li>
-      <li><a class="dropdown-item" href="../close.php">Cerrar Seción</a></li>
+      <li><a class="dropdown-item" href="../favorites.php" data-bs-toggle="tooltip" title="Acceda a favoritos">Favoritos</a></li>
+      <li><a class="dropdown-item" href="../close.php" data-bs-toggle="tooltip" title="Cierre sesión">Cerrar Sesión</a></li>
     </ul>
   </div>';
 } else {
     $btn = '<form class="d-flex" action="../login.php">
-    <button class=" btn btn-outline-primary">Iniciar Sesion</button></form>';
-    $fav = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+    <button class=" btn btn-outline-primary" data-bs-toggle="tooltip" title="Inicie sesión">Iniciar Sesion</button></form>';
+    $fav = '<a data-bs-toggle="tooltip" title="Acceda a favoritos"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16" data-bs-toggle="tooltip" title="Acceda a favoritos">
     <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
-  </svg>';
+  </svg></a>';
 }
 
 $db = new Db();
@@ -88,7 +88,7 @@ $data = $data->fetchAll(PDO::FETCH_CLASS, "User");
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse " id="navbarTogglerDemo01">
-                <a class="navbar-brand" href="../index.php"><img src="../views/img/favicon.ico" width="20" height="20">AsturEvent</a>
+                <a class="navbar-brand" data-bs-toggle="tooltip" title="Vaya a la página principal" href="../index.php"><img src="../views/img/favicon.ico" width="20" height="20">AsturEvent</a>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 </ul>
                 <?php echo $btn; ?>
@@ -111,7 +111,7 @@ $data = $data->fetchAll(PDO::FETCH_CLASS, "User");
             </div>
             <div class="col-md-12">
                 <div class="card-body">
-                    <p class="card-text "><b class="text-primary">Descripción:</b> <br> <?php echo $data[0]->description; ?></p>
+                    <p class="card-text"><b class="text-primary">Descripción:</b> <br> <?php echo $data[0]->description; ?></p>
                     <p class="card-text"><small class="text-muted">Fecha del <?php echo $data[0]->date_init; ?> al <?php echo $data[0]->date_end; ?></small></p>
                 </div>
             </div>
@@ -124,5 +124,10 @@ $data = $data->fetchAll(PDO::FETCH_CLASS, "User");
     </script>
     <script src="../views/js/scriptEvent.js"></script>
 </body>
+<footer class="page-footer font-small blue">
+    <div class="footer-copyright text-center py-3">© 2020 Copyright:
+        <a href="/Asturfest/index.php"> AsturFest</a>
+    </div>
+</footer>
 
 </html>
